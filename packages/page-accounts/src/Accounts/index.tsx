@@ -61,7 +61,7 @@ async function queryLedger (): Promise<void> {
 function Overview ({ className = '', onStatusChange }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api } = useApi();
-  const { allAccounts, hasAccounts } = useAccounts();
+  const { allAccounts } = useAccounts();
   const { isIpfs } = useIpfs();
   const [isCreateOpen, toggleCreate] = useToggle();
   const [isCreateOpen2, toggleCreate2] = useToggle();
@@ -87,13 +87,13 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   const headerRef = useRef([
     [t('accounts'), 'start', 3],
-    [t('parent'), 'address media--1400'],
+    [t('parent'), 'address ui--media-1400'],
     [t('type')],
     [t('tags'), 'start'],
-    [t('transactions'), 'media--1500'],
+    [t('transactions'), 'ui--media-1500'],
     [t('balances')],
     [],
-    [undefined, 'mini media--1400']
+    [undefined, 'mini ui--media-1400']
   ]);
 
   useEffect((): void => {
@@ -146,14 +146,14 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const footer = useMemo(() => (
     <tr>
       <td colSpan={3} />
-      <td className='media--1400' />
+      <td className='ui--media-1400' />
       <td colSpan={2} />
-      <td className='media--1500' />
+      <td className='ui--media-1500' />
       <td className='number'>
         {balanceTotal && <FormatBalance value={balanceTotal} />}
       </td>
       <td />
-      <td className='media--1400' />
+      <td className='ui--media-1400' />
     </tr>
   ), [balanceTotal]);
 
@@ -256,7 +256,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
         />
       </Button.Group>
       <Table
-        empty={(!hasAccounts || (!isLoading && sortedAccountsWithDelegation)) && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
+        empty={!isLoading && sortedAccountsWithDelegation && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
         filter={filter}
         footer={footer}
         header={headerRef.current}
