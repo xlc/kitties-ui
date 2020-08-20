@@ -18,6 +18,7 @@ import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
 import CreateModal from './modals/Create';
+import NewCreateModal from './modals/NewCreate';
 import ImportModal from './modals/Import';
 import Multisig from './modals/MultisigCreate';
 import Proxy from './modals/ProxiedAdd';
@@ -64,6 +65,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const { allAccounts } = useAccounts();
   const { isIpfs } = useIpfs();
   const [isCreateOpen, toggleCreate] = useToggle();
+  const [isCreateOpen2, toggleCreate2] = useToggle();
   const [isImportOpen, toggleImport] = useToggle();
   const [isMultisigOpen, toggleMultisig] = useToggle();
   const [isProxyOpen, toggleProxy] = useToggle();
@@ -179,6 +181,12 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           onStatusChange={onStatusChange}
         />
       )}
+      {isCreateOpen2 && (
+        <NewCreateModal
+          onClose={toggleCreate2}
+          onStatusChange={onStatusChange}
+        />
+      )}
       {isImportOpen && (
         <ImportModal
           onClose={toggleImport}
@@ -209,6 +217,12 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           isDisabled={isIpfs}
           label={t<string>('Add account')}
           onClick={toggleCreate}
+        />
+        <Button
+          icon='plus'
+          isDisabled={isIpfs}
+          label={t<string>('Add account 2')}
+          onClick={toggleCreate2}
         />
         <Button
           icon='sync'
