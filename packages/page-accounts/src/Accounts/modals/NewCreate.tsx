@@ -2,7 +2,7 @@ import React, {useCallback, useMemo, useState} from 'react';
 import {ModalProps} from '@polkadot/app-accounts/types';
 import {ActionStatus} from '@polkadot/react-components/Status/types';
 import {KeypairType} from '@polkadot/util-crypto/types';
-import {AddressRow, Button, Checkbox, Dropdown, Input, Modal} from '@polkadot/react-components';
+import {AddressRow, Button, Checkbox, Dropdown, Expander, Input, InputAddress, Modal} from '@polkadot/react-components';
 import {useTranslation} from '@polkadot/app-accounts/translate';
 import keyring from '@polkadot/ui-keyring';
 import {keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a} from '@polkadot/util-crypto';
@@ -10,6 +10,10 @@ import {DEV_PHRASE} from '@polkadot/keyring/defaults';
 import {isHex, u8aToHex} from '@polkadot/util';
 import {useApi} from '@polkadot/react-hooks';
 import styled from 'styled-components';
+import NewPasswordInput from '../NewPasswordInput';
+import uiSettings from '@polkadot/ui-settings';
+import {getEnvironment} from '@polkadot/react-api/util';
+import {downloadAccount} from '@polkadot/app-accounts/Accounts/modals/Create';
 
 interface Props extends ModalProps {
   className?: string;
@@ -32,6 +36,7 @@ interface AddressState {
 }
 
 const DEFAULT_PAIR_TYPE = 'sr25519';
+const NUM_STEPS = 2;
 
 function addressFromSeed (phrase: string, derivePath: string, pairType: KeypairType): string {
   return keyring
@@ -121,6 +126,37 @@ function updateAddress (seed: string, derivePath: string, seedType: SeedType, pa
   };
 }
 
+interface CreateOptions {
+  genesisHash?: string;
+  name: string;
+  tags?: string[];
+}
+
+function createAccount (suri: string, pairType: KeypairType, { genesisHash, name, tags = [] }: CreateOptions, password: string, success: string): ActionStatus {
+  // we will fill in all the details below
+  const status = { action: 'create' } as ActionStatus;
+
+  try {
+    const result = keyring.addUri(suri, password, { genesisHash, name, tags }, pairType);
+    const { address } = result.pair;
+
+    status.account = address;
+    status.status = 'success';
+    status.message = success;
+
+    InputAddress.setLastValue('account', address);
+
+    if (getEnvironment() === 'web') {
+      downloadAccount(result);
+    }
+  } catch (error) {
+    status.status = 'error';
+    status.message = (error as Error).message;
+  }
+
+  return status;
+}
+
 function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, type: propsType }: Props): React.ReactElement<Props> {
   const { t } = useTranslation();
   const { api, isDevelopment } = useApi();
@@ -128,7 +164,9 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
   const [isMnemonicSaved, setIsMnemonicSaved] = useState<boolean>(false);
   const [step, setStep] = useState(1);
   const [{ isNameValid, name }, setName] = useState({ isNameValid: false, name: '' });
-  const [search, setSearch] = useState<string>('');
+  const [{ isPasswordValid, password }, setPassword] = useState({ isPasswordValid: false, password: '' });
+  const isValid = !deriveError && isNameValid && isPasswordValid;
+
   const seedOpt = useMemo(() => (
     isDevelopment
       ? [{ text: t<string>('Development'), value: 'dev' }]
@@ -166,22 +204,54 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
     []
   );
 
-  const _onChangeSearch = useCallback(
-    (search: string) => setSearch(search),
+  const _onPasswordChange = useCallback(
+    (password: string, isPasswordValid: boolean) => setPassword({ isPasswordValid, password }),
     []
   );
 
+  const _onChangePairType = useCallback(
+    (newPairType: KeypairType) => setAddress(updateAddress(seed, derivePath, seedType, newPairType)),
+    [derivePath, seed, seedType]
+  );
+
+  const _onChangeDerive = useCallback(
+    (newDerivePath: string) => setAddress(updateAddress(seed, newDerivePath, seedType, pairType)),
+    [pairType, seed, seedType]
+  );
+
+  const _onCommit = useCallback(
+    (): void => {
+      if (!isValid) {
+        return;
+      }
+
+      setTimeout((): void => {
+        const options = { genesisHash: isDevelopment ? undefined : api.genesisHash.toString(), name: name.trim() };
+        const status = createAccount(`${seed}${derivePath}`, pairType, options, password, t<string>('created account'));
+
+        onStatusChange(status);
+        onClose();
+      }, 0);
+    },
+    [api, derivePath, isDevelopment, isValid, name, onClose, onStatusChange, pairType, password, seed, t]
+  );
+
   return (
-    <>
+    <Modal
+      className={`${className} ui--Modal-Wrapper medium`}
+      header={t<string>('Add an account via seed {{step}}/{{NUM_STEPS}}', {
+        replace: {
+          NUM_STEPS,
+          step
+        }
+      })}
+    >
+      <Button
+        icon='times'
+        onClick={onClose}
+      />
       {step === 1 ?
-        <Modal
-          className={`${className} ui--Modal-Wrapper medium`}
-          header={t<string>('Add an account via seed')}
-        >
-          <Button
-            icon='times'
-            onClick={onClose}
-          />
+        <>
           <Modal.Content>
             <Modal.Columns>
               <AddressRow
@@ -237,25 +307,26 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
             label={t<string>('Next step')}
             onClick={_nextStep}
           />
-        </Modal>
+        </>
         :
-        <Modal
-          className={className}
-          header={t<string>('Add multisig')}
-          size='large'
-        >
-          <Button
-            icon='times'
-            onClick={onClose}
-          />
+        <>
           <Modal.Content>
+            <Modal.Columns>
+              <Modal.Column>
+                <AddressRow
+                  defaultName={name}
+                  noDefaultNameOpacity
+                  value={address}
+                />
+              </Modal.Column>
+            </Modal.Columns>
             <Modal.Columns>
               <Modal.Column>
                 <Input
                   autoFocus
                   help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
                   isError={!isNameValid}
-                  label={t<string>('A NAME FOR YOUR MULTISIG ACCOUNT')}
+                  label={t<string>('A DESCRIPTIVE NAME FOR YOUR ACCOUNT')}
                   onChange={_onChangeName}
                   placeholder={t<string>('Account Name')}
                   value={name}
@@ -264,23 +335,66 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
             </Modal.Columns>
             <Modal.Columns>
               <Modal.Column>
-                <Input
-                  autoFocus
-                  label={t<string>('SELECT SIGNATORIES')}
-                  onChange={_onChangeSearch}
-                  placeholder={t<string>('Search')}
-                  value={search}
-                />
+                <NewPasswordInput
+                  onChange={_onPasswordChange}
+                  password={password}/>
               </Modal.Column>
             </Modal.Columns>
+            <Expander
+              className='accounts--Creator-advanced'
+              isOpen
+              summary={t<string>('Advanced creation options')}
+            >
+              <Modal.Columns>
+                <Modal.Column>
+                  <Dropdown
+                    defaultValue={pairType}
+                    help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
+                    label={t<string>('KEYPAIR CRYPTO TYPE')}
+                    onChange={_onChangePairType}
+                    options={uiSettings.availableCryptos}
+                  />
+                </Modal.Column>
+                <Modal.Column>
+                  <p>{t<string>('If you are moving accounts between applications, ensure that you use the correct type.')}</p>
+                </Modal.Column>
+              </Modal.Columns>
+              <Modal.Columns>
+                <Modal.Column>
+                  <Input
+                    help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. An optional "///<password>" can be used with a mnemonic seed, and may only be specified once.')}
+                    isError={!!deriveError}
+                    label={t<string>('SECRET DERIVATION PATH')}
+                    onChange={_onChangeDerive}
+                    placeholder={
+                      seedType === 'raw'
+                        ? pairType === 'sr25519'
+                        ? t<string>('//hard/soft')
+                        : t<string>('//hard')
+                        : pairType === 'sr25519'
+                        ? t<string>('//hard/soft///password')
+                        : t<string>('//hard///password')
+                    }
+                    value={derivePath}
+                  />
+                  {deriveError && (
+                    <article className='error'>{deriveError}</article>
+                  )}
+                </Modal.Column>
+                <Modal.Column>
+                  <p>{t<string>('The derivation path allows you to create different accounts from the same base mnemonic.')}</p>
+                </Modal.Column>
+              </Modal.Columns>
+            </Expander>
           </Modal.Content>
           <Button
             isSelected={true}
             label={t<string>('Create an account')}
-            onClick={_nextStep}
+            onClick={_onCommit}
           />
-        </Modal>}
-    </>
+        </>
+      }
+    </Modal>
   )
 }
 
