@@ -9,6 +9,7 @@ import {keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a} from '@
 import {DEV_PHRASE} from '@polkadot/keyring/defaults';
 import {isHex, u8aToHex} from '@polkadot/util';
 import {useApi} from '@polkadot/react-hooks';
+import styled from 'styled-components';
 
 interface Props extends ModalProps {
   className?: string;
@@ -174,9 +175,8 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
     <>
       {step === 1 ?
         <Modal
-          className={className}
+          className={`${className} ui--Modal-Wrapper medium`}
           header={t<string>('Add an account via seed')}
-          size='large'
         >
           <Button
             icon='times'
@@ -184,20 +184,16 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
           />
           <Modal.Content>
             <Modal.Columns>
-              <Modal.Column>
-                <AddressRow
-                  defaultName={name}
-                  noDefaultNameOpacity
-                  value={isSeedValid ? address : ''}
-                />
-              </Modal.Column>
+              <AddressRow
+                defaultName={name}
+                noDefaultNameOpacity
+                value={isSeedValid ? address : ''}
+              />
             </Modal.Columns>
             <Modal.Columns>
-              <Modal.Column>
-                <article className={'warning'}>
-                  <div>{t<string>(`PLEASE WRITE DOWN YOUR WALLET'S MNEMONIC SEED AND KEEP IT IN A SAFE PLACE`)}</div>
-                </article>
-              </Modal.Column>
+              <article className={'warning'}>
+                <div>{t<string>(`PLEASE WRITE DOWN YOUR WALLET'S MNEMONIC SEED AND KEEP IT IN A SAFE PLACE`)}</div>
+              </article>
             </Modal.Columns>
             <Modal.Columns>
               <Modal.Column>
@@ -288,4 +284,41 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
   )
 }
 
-export default NewCreate;
+export default styled(NewCreate)`
+  &.ui--Modal-Wrapper.medium {
+    width: 655px;
+  }
+  &&.ui--Modal-Wrapper {
+    border-radius: 0;
+    background: #FAFAFA;
+
+    .ui--Button:not(.hasLabel) {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+
+      svg {
+        background: none;
+        color: #000;
+      }
+    }
+    .warning {
+      width: 100%;
+      padding: 0.7rem 0.9rem 0.6rem 2.9rem;
+      margin: 0;
+      background: rgba(232, 111, 0, 0.08);
+      border: 0;
+      border-radius: 4px;
+      font-weight: 800;
+      font-size: 10px;
+      line-height: 14px;
+      color: #E86F00;
+    }
+  }
+  &&.ui--Modal-Wrapper > div.header {
+    padding: 1.5rem 2.60rem 0 1.75rem;
+    font-size: 1.45rem;
+    line-height: 1.75rem;
+    color: #000000;
+  }
+`;
