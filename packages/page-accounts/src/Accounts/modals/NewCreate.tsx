@@ -146,9 +146,6 @@ function createAccount (suri: string, pairType: KeypairType, { genesisHash, name
 
     InputAddress.setLastValue('account', address);
 
-    if (getEnvironment() === 'web') {
-      downloadAccount(result);
-    }
   } catch (error) {
     status.status = 'error';
     status.message = (error as Error).message;
@@ -355,9 +352,6 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
                     options={uiSettings.availableCryptos}
                   />
                 </Modal.Column>
-                <Modal.Column>
-                  <p>{t<string>('If you are moving accounts between applications, ensure that you use the correct type.')}</p>
-                </Modal.Column>
               </Modal.Columns>
               <Modal.Columns>
                 <Modal.Column>
@@ -380,9 +374,6 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
                   {deriveError && (
                     <article className='error'>{deriveError}</article>
                   )}
-                </Modal.Column>
-                <Modal.Column>
-                  <p>{t<string>('The derivation path allows you to create different accounts from the same base mnemonic.')}</p>
                 </Modal.Column>
               </Modal.Columns>
             </Expander>
