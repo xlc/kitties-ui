@@ -19,7 +19,6 @@ function calcStrength (password: string): number {
     minPhraseLength        : 20
   });
   const passedTests = owasp.test(password).passedTests.length;
-  console.log(owasp.test(password))
   return owasp.test(password).isPassphrase ? 6 : passedTests - 2 ;
 }
 
