@@ -3112,6 +3112,7 @@ __metadata:
     "@testing-library/react": ^10.4.8
     detect-browser: ^5.1.1
     file-saver: ^2.0.2
+    owasp-password-strength-test: ^1.3.0
     testcontainers: ^2.17.0
   languageName: unknown
   linkType: soft
@@ -17734,6 +17735,13 @@ __metadata:
     os-homedir: ^1.0.0
     os-tmpdir: ^1.0.0
   checksum: 1c7462808c5ff0c2816b11f2f46265a98c395586058f98d73a6deac82955744484b277baedceeb962c419f3b75d0831a77ce7cf38b9e4f20729943ba79d72b08
+  languageName: node
+  linkType: hard
+
+"owasp-password-strength-test@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "owasp-password-strength-test@npm:1.3.0"
+  checksum: beb2e677826e1e3b6fd29d5c75ed89bb6fe231b855a39537f8dbd241dd97ae91e83d044290c4b167f1e8495b3b99e984f73aa6ba30b3103e2497d4c118a29f3b
   languageName: node
   linkType: hard
 

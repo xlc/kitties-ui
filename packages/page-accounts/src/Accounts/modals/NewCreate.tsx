@@ -12,8 +12,6 @@ import {useApi} from '@polkadot/react-hooks';
 import styled from 'styled-components';
 import NewPasswordInput from '../NewPasswordInput';
 import uiSettings from '@polkadot/ui-settings';
-import {getEnvironment} from '@polkadot/react-api/util';
-import {downloadAccount} from '@polkadot/app-accounts/Accounts/modals/Create';
 
 interface Props extends ModalProps {
   className?: string;
