@@ -8,7 +8,6 @@ import SUIButton from 'semantic-ui-react/dist/commonjs/elements/Button/Button';
 import SUIDropdown, { DropdownProps } from 'semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown';
 import { isUndefined } from '@polkadot/util';
 
-import { classes } from './util';
 import Labelled from './Labelled';
 
 interface Props<Option> {
@@ -106,24 +105,35 @@ function BaseDropdown<Option> ({ allowAdd = false, className = '', defaultValue,
     />
   );
 
-  return isButton
-    ? <SUIButton.Group>{dropdown}</SUIButton.Group>
-    : (
-      <Labelled
-        className={classes('ui--Dropdown', className)}
-        help={help}
-        isFull={isFull}
-        label={label}
-        labelExtra={labelExtra}
-        withEllipsis={withEllipsis}
-        withLabel={withLabel}
-      >
-        {dropdown}
-      </Labelled>
-    );
+  return (
+    <div className={className}>
+      {isButton
+        ? <SUIButton.Group>{dropdown}</SUIButton.Group>
+        : <Labelled
+            className='ui--Dropdown'
+            help={help}
+            isFull={isFull}
+            label={label}
+            labelExtra={labelExtra}
+            withEllipsis={withEllipsis}
+            withLabel={withLabel}
+          >
+            {dropdown}
+          </Labelled>
+      }
+    </div>
+  )
 }
 
 const Dropdown = React.memo(styled(BaseDropdown)`
+  .ui.selection.dropdown {
+    font-size: 1rem;
+    color: #000000;
+    font-weight: 400;
+    border: 1px solid #DFDFDF;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
   .ui--Dropdown-item {
     position: relative;
     white-space: nowrap;

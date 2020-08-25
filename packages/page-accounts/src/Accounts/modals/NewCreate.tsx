@@ -2,7 +2,7 @@ import React, {useCallback, useMemo, useState} from 'react';
 import {ModalProps} from '@polkadot/app-accounts/types';
 import {ActionStatus} from '@polkadot/react-components/Status/types';
 import {KeypairType} from '@polkadot/util-crypto/types';
-import {AddressRow, Button, Checkbox, Dropdown, Expander, Input, InputAddress, Modal} from '@polkadot/react-components';
+import {AddressRow, Button, Checkbox, CopyToClipboard, Dropdown, Expander, Input, InputNew, InputAddress, Modal, Icon} from '@polkadot/react-components';
 import {useTranslation} from '@polkadot/app-accounts/translate';
 import keyring from '@polkadot/ui-keyring';
 import {keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a} from '@polkadot/util-crypto';
@@ -253,70 +253,63 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
       {step === 1 ?
         <>
           <Modal.Content>
-            <Modal.Columns>
-              <AddressRow
-                defaultName={name}
-                noDefaultNameOpacity
-                value={isSeedValid ? address : ''}
+            <AddressRow
+              defaultName={name}
+              noDefaultNameOpacity
+              value={isSeedValid ? address : ''}
+            />
+            <article className="ui--Warning">
+              <Icon icon="exclamation-triangle"/>
+              <div>{t<string>(`PLEASE WRITE   DOWN YOUR WALLET'S MNEMONIC SEED AND KEEP IT IN A SAFE PLACE`)}</div>
+            </article>
+            <InputNew
+              help={t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
+              isAction
+              name="printJS-seed"
+              isError={!isSeedValid}
+              isReadOnly={seedType === 'dev'}
+              label={
+                seedType === 'bip'
+                  ? t<string>('mnemonic seed')
+                  : seedType === 'dev'
+                  ? t<string>('development seed')
+                  : t<string>('seed (hex or string)')
+              }
+              onChange={_onChangeSeed}
+              value={seed}
+            >
+              <Dropdown
+                defaultValue={seedType}
+                isButton
+                onChange={_selectSeedType}
+                options={seedOpt}
               />
-            </Modal.Columns>
-            <Modal.Columns>
-              <article className={'warning'}>
-                <div>{t<string>(`PLEASE WRITE DOWN YOUR WALLET'S MNEMONIC SEED AND KEEP IT IN A SAFE PLACE`)}</div>
-              </article>
-            </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <Input
-                  help={t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
-                  isAction
-                  isError={!isSeedValid}
-                  isReadOnly={seedType === 'dev'}
-                  label={
-                    seedType === 'bip'
-                      ? t<string>('mnemonic seed')
-                      : seedType === 'dev'
-                      ? t<string>('development seed')
-                      : t<string>('seed (hex or string)')
-                  }
-                  onChange={_onChangeSeed}
-                  value={seed}
-                  name="printJS-seed"
-                >
-                  <Dropdown
-                    defaultValue={seedType}
-                    isButton
-                    onChange={_selectSeedType}
-                    options={seedOpt}
-                  />
-                </Input>
-              </Modal.Column>
-            </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <button
-                  onClick={onPrintSeed}
-                >
-                  Print seed phrase
-                </button>
-              </Modal.Column>
-            </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <Checkbox
-                  onChange={_toggleMnemonicSaved}
-                  value={isMnemonicSaved}
-                  label={<>{t<string>('I have saved my mnemonic seed safely')}</>}
-                />
-              </Modal.Column>
-            </Modal.Columns>
+            </InputNew>
+            
+            <div className="ui--Buttons-row">
+              <CopyToClipboard elementId="printJS-seed"/>
+              <button
+                onClick={onPrintSeed}
+                className="ui--Print-btn"
+              >
+                <Icon icon="print"/>
+                Print seed phrase
+              </button>
+            </div>
+            <Checkbox
+              onChange={_toggleMnemonicSaved}
+              value={isMnemonicSaved}
+              label={<>{t<string>('I have saved my mnemonic seed safely')}</>}
+            />  
           </Modal.Content>
-          <Button
-            isDisabled={!isMnemonicSaved}
-            isSelected={true}
-            label={t<string>('Next step')}
-            onClick={_nextStep}
-          />
+          <div className='ui--Modal-Footer'>
+            <Button
+              isDisabled={!isMnemonicSaved}
+              isSelected={true}
+              label={t<string>('Next step')}
+              onClick={_nextStep}
+            />
+          </div>
         </>
         :
         <>
@@ -420,10 +413,12 @@ export default styled(NewCreate)`
         color: #000;
       }
     }
-    .warning {
+    .ui--Warning {
+      display: flex;
+      align-items: center;
       width: 100%;
-      padding: 0.7rem 0.9rem 0.6rem 2.9rem;
-      margin: 0;
+      padding: 0.7rem 0.9rem 0.6rem;
+      margin: 0 0 16px;
       background: rgba(232, 111, 0, 0.08);
       border: 0;
       border-radius: 4px;
@@ -431,6 +426,33 @@ export default styled(NewCreate)`
       font-size: 10px;
       line-height: 14px;
       color: #E86F00;
+
+      svg {
+        margin-right: 12px;
+      }
+    }
+    .ui--Buttons-row {
+      display: flex;
+      align-items: center;
+      margin: 0.45rem 0 1.1rem;
+
+      button + button {
+        margin-left: 24px;
+      }
+    }
+    .ui--Print-btn {
+      padding: 0;
+      background: none;
+      border: none;
+      font-weight: 600;
+      font-size: 14px;
+      line-height: 22px;
+      text-decoration: underline;
+      color: #4D4D4D;
+
+      svg {
+        margin-right: 12px;
+      }
     }
   }
   &&.ui--Modal-Wrapper > div.header {
@@ -438,5 +460,12 @@ export default styled(NewCreate)`
     font-size: 1.45rem;
     line-height: 1.75rem;
     color: #000000;
+  }
+  .ui--Modal-Footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1.1rem 1.7rem;
+    background: #ECECEC;
+    border-top: 1px solid #DFDFDF;
   }
 `;
