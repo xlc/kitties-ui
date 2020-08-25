@@ -12,6 +12,7 @@ import {useApi} from '@polkadot/react-hooks';
 import styled from 'styled-components';
 import NewPasswordInput from '../NewPasswordInput';
 import uiSettings from '@polkadot/ui-settings';
+import print from 'print-js'
 
 interface Props extends ModalProps {
   className?: string;
@@ -214,6 +215,10 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
     [pairType, seed, seedType]
   );
 
+  const onPrintSeed = () => {
+    print('printJS-seed', 'html');
+  }
+
   const _onCommit = useCallback(
     (): void => {
       if (!isValid) {
@@ -276,6 +281,7 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
                   }
                   onChange={_onChangeSeed}
                   value={seed}
+                  name="printJS-seed"
                 >
                   <Dropdown
                     defaultValue={seedType}
@@ -284,6 +290,15 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
                     options={seedOpt}
                   />
                 </Input>
+              </Modal.Column>
+            </Modal.Columns>
+            <Modal.Columns>
+              <Modal.Column>
+                <button
+                  onClick={onPrintSeed}
+                >
+                  Print seed phrase
+                </button>
               </Modal.Column>
             </Modal.Columns>
             <Modal.Columns>
