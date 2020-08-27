@@ -24,11 +24,10 @@ function Checkbox ({ className = '', isDisabled, label, onChange, value }: Props
   );
 
   return (
-    <div className={`ui--Checkbox${isDisabled ? ' isDisabled' : ''} ${className}`}>
+    <div onClick={_onClick} className={`ui--Checkbox${isDisabled ? ' isDisabled' : ''} ${className}`}>
       <Icon
         color={value ? 'normal' : 'transparent'}
         icon='check'
-        onClick={_onClick}
       />
       {label && <label>{label}</label>}
     </div>
@@ -36,6 +35,9 @@ function Checkbox ({ className = '', isDisabled, label, onChange, value }: Props
 }
 
 export default React.memo(styled(Checkbox)`
+  display: inline-block;
+  cursor: pointer;
+
   &.isDisabled {
     opacity: 0.5;
   }
