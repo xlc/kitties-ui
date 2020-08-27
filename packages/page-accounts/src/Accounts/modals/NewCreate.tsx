@@ -287,7 +287,9 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
             </InputNew>
 
             <div className="ui--Buttons-row">
-              <CopyToClipboard elementId="printJS-seed"/>
+              <CopyToClipboard
+                className="ui--Print-btn"
+                elementId="printJS-seed"/>
               <button
                 onClick={onPrintSeed}
                 className="ui--Print-btn"
