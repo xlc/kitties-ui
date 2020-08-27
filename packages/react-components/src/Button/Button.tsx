@@ -52,6 +52,7 @@ export default React.memo(styled(Button)`
 
   &:not(.hasLabel) {
     padding: 0.7em;
+    line-height: initial;
 
     .ui--Icon {
       padding: 0.6rem;

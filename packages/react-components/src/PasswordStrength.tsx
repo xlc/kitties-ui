@@ -24,26 +24,45 @@ function calcStrength (password: string): number {
 
 function PasswordStrength ({ className = '', value }: Props): React.ReactElement<Props> {
   // No need for memo, component is already memo-ed (only changes on value)
-  const style = { width: `${calcStrength(value) * 100/6}%` };
+  const passwordStrength = calcStrength(value);
+  const style = { width: `${passwordStrength * 100/6}%` };
 
   return (
-    <div className={className}>
-      <div
-        className='highlight--bg'
-        style={style}
-      />
+    <div className={className} style={{display: passwordStrength ? 'flex' : 'none'}}>
+      week
+      <div className='ui--Strength-bar'>
+        <div className='ui--Strength-bar-highlighted' style={style} />
+      </div>
+      strong
     </div>
   );
 }
 
 export default React.memo(styled(PasswordStrength)`
-  background: ##eee6e6;
-  border-radius: 0.25rem;
-  margin-left: 2rem;
-  margin-top: 0.25rem;
-  overflow: hidden;
+  align-items: center;
+  margin-top: 0.5rem;
+  font-weight: 800;
+  font-size: 10px;
+  line-height: 14px;
+  text-transform: uppercase;
+  color: #8B8B8B;
 
-  > div {
-    height: 0.5rem;
+  .ui--Strength-bar {
+    position: relative;
+    height: 0.6rem;
+    width: 14rem;
+    margin: 0 10px;
+    border: 1px solid #DFDFDF;
+    border-radius: 0.15rem;
+    background: #ECECEC;
+  }
+  .ui--Strength-bar-highlighted {
+    position: absolute;
+    top: -0.07rem;
+    left: -0.07rem;
+    height: 0.6rem;
+    width: 100%;
+    border-radius: 0.15rem;
+    background: linear-gradient(90.43deg, #FF8B00 0%, #FFBB50 112.75%);
   }
 `);

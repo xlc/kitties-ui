@@ -5,15 +5,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import {Icon} from '@polkadot/react-components';
+import useToast from '@polkadot/react-hooks/useToast';
 
 interface CopyButtonProps {
   elementId: string;
   className?: string;
 }
 
-function copy(id: string) {
+function onCopy(id: string) {
   const content = document.getElementById(id);
-  if (content instanceof HTMLInputElement) {
+  if (content instanceof HTMLTextAreaElement) {
     content.select();
     document.execCommand('copy');
   } else {
@@ -21,25 +22,19 @@ function copy(id: string) {
   }
 }
 
-const CopyToClipboard = ({elementId, className}: CopyButtonProps) => (
-  <button className={className} onClick={() => copy(elementId)}>
-    <Icon icon="copy"/>
-    Copy to clipboard
-  </button>
-);
+function CopyToClipboard ({elementId, className}: CopyButtonProps) {
+  const { show } = useToast();
+  const _onCopy = useCallback((id: string): void => {
+    onCopy(id);
+    show('Copied');
+  }, [show]);
 
-export default React.memo(styled(CopyToClipboard)`
-  display: flex;
-  align-items: center;
-  padding: 0;
-  border: none;
-  background: none;
-  font-size: 1rem;
-  line-height: 1.5rem;
-  text-decoration: underline;
-  color: #4D4D4D;
+  return (
+    <button className={className} onClick={() => _onCopy(elementId)}>
+      <Icon icon="copy"/>
+      Copy to clipboard
+    </button>
+  )
+}
 
-  svg {
-    margin-right: 9px;
-  }
-`)
+export default React.memo(CopyToClipboard);

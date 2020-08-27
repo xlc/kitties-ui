@@ -2,7 +2,7 @@ import React, {useCallback, useMemo, useState} from 'react';
 import {ModalProps} from '@polkadot/app-accounts/types';
 import {ActionStatus} from '@polkadot/react-components/Status/types';
 import {KeypairType} from '@polkadot/util-crypto/types';
-import {AddressRow, Button, Checkbox, CopyToClipboard, Dropdown, Expander, Input, InputNew, InputAddress, Modal, Icon} from '@polkadot/react-components';
+import {AddressRow, Button, Checkbox, CopyToClipboard, DropdownNew, Expander, InputNew, InputAddress, Modal, Icon, InputSection} from '@polkadot/react-components';
 import {useTranslation} from '@polkadot/app-accounts/translate';
 import keyring from '@polkadot/ui-keyring';
 import {keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a} from '@polkadot/util-crypto';
@@ -13,6 +13,8 @@ import styled from 'styled-components';
 import NewPasswordInput from '../NewPasswordInput';
 import uiSettings from '@polkadot/ui-settings';
 import print from 'print-js'
+import ToastProvider from '@polkadot/react-components/Toast/ToastProvider';
+import TextAriaWithLabel from '@polkadot/react-components/TextAriaWithLabel';
 
 interface Props extends ModalProps {
   className?: string;
@@ -253,6 +255,7 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
       {step === 1 ?
         <>
           <Modal.Content>
+            <ToastProvider>
             <AddressRow
               defaultName={name}
               noDefaultNameOpacity
@@ -262,10 +265,9 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
               <Icon icon="exclamation-triangle"/>
               <div>{t<string>(`PLEASE WRITE   DOWN YOUR WALLET'S MNEMONIC SEED AND KEEP IT IN A SAFE PLACE`)}</div>
             </article>
-            <InputNew
+            <TextAriaWithLabel
               help={t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
               isAction
-              name="printJS-seed"
               isError={!isSeedValid}
               isReadOnly={seedType === 'dev'}
               label={
@@ -276,18 +278,21 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
                   : t<string>('seed (hex or string)')
               }
               onChange={_onChangeSeed}
-              value={seed}
+              seed={seed}
             >
-              <Dropdown
+              <DropdownNew
+                classNameButton='seedDropdown'
                 defaultValue={seedType}
                 isButton
                 onChange={_selectSeedType}
                 options={seedOpt}
               />
-            </InputNew>
+            </TextAriaWithLabel>
 
             <div className="ui--Buttons-row">
-              <CopyToClipboard elementId="printJS-seed"/>
+              <CopyToClipboard
+                className="ui--Print-btn"
+                elementId="printJS-seed"/>
               <button
                 onClick={onPrintSeed}
                 className="ui--Print-btn"
@@ -301,6 +306,7 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
               value={isMnemonicSaved}
               label={<>{t<string>('I have saved my mnemonic seed safely')}</>}
             />
+          </ToastProvider>
           </Modal.Content>
           <div className='ui--Modal-Footer'>
             <Button
@@ -319,58 +325,68 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
               noDefaultNameOpacity
               value={address}
             />
-            <Input
-              autoFocus
-              help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
-              isError={!isNameValid}
-              label={t<string>('A DESCRIPTIVE NAME FOR YOUR ACCOUNT')}
-              onChange={_onChangeName}
-              placeholder={t<string>('Account Name')}
-              value={name}
-            />
-            <NewPasswordInput
-              onChange={_onPasswordChange}
-              password={password}
-            />
+            <InputSection>
+              <InputNew
+                autoFocus
+                help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
+                isError={!!name && !isNameValid}
+                label={t<string>('A DESCRIPTIVE NAME FOR YOUR ACCOUNT')}
+                onChange={_onChangeName}
+                placeholder={t<string>('Account Name')}
+                value={name}
+              />
+            </InputSection>
+            <InputSection>
+              <NewPasswordInput
+                onChange={_onPasswordChange}
+                password={password}
+              />
+            </InputSection>
             <Expander
               className='accounts--Creator-advanced'
               isOpen
               summary={t<string>('Advanced creation options')}
             >
-              <Dropdown
-                defaultValue={pairType}
-                help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
-                label={t<string>('KEYPAIR CRYPTO TYPE')}
-                onChange={_onChangePairType}
-                options={uiSettings.availableCryptos}
-              />
-              <Input
-                help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. An optional "///<password>" can be used with a mnemonic seed, and may only be specified once.')}
-                isError={!!deriveError}
-                label={t<string>('SECRET DERIVATION PATH')}
-                onChange={_onChangeDerive}
-                placeholder={
-                  seedType === 'raw'
-                    ? pairType === 'sr25519'
-                    ? t<string>('//hard/soft')
-                    : t<string>('//hard')
-                    : pairType === 'sr25519'
-                    ? t<string>('//hard/soft///password')
-                    : t<string>('//hard///password')
-                }
-                value={derivePath}
-              />
-              {deriveError && (
-                <article className='error'>{deriveError}</article>
-              )}
-                
+              <InputSection>
+                <DropdownNew
+                  defaultValue={pairType}
+                  help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
+                  label={t<string>('KEYPAIR CRYPTO TYPE')}
+                  onChange={_onChangePairType}
+                  options={uiSettings.availableCryptos}
+                />
+              </InputSection>
+              <InputSection>
+                <InputNew
+                  help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. An optional "///<password>" can be used with a mnemonic seed, and may only be specified once.')}
+                  isError={!!deriveError}
+                  label={t<string>('SECRET DERIVATION PATH')}
+                  onChange={_onChangeDerive}
+                  placeholder={
+                    seedType === 'raw'
+                      ? pairType === 'sr25519'
+                      ? t<string>('//hard/soft')
+                      : t<string>('//hard')
+                      : pairType === 'sr25519'
+                      ? t<string>('//hard/soft///password')
+                      : t<string>('//hard///password')
+                  }
+                  value={derivePath}
+                />
+                {deriveError && (
+                  <article className='error'>{deriveError}</article>
+                )}
+              </InputSection>
             </Expander>
           </Modal.Content>
-          <Button
-            isSelected={true}
-            label={t<string>('Create an account')}
-            onClick={_onCommit}
-          />
+          <div className='ui--Modal-Footer'>
+            <Button
+              icon='plus'
+              isSelected={true}
+              label={t<string>('Create an account')}
+              onClick={_onCommit}
+            />
+          </div>
         </>
       }
     </Modal>
@@ -434,6 +450,9 @@ export default styled(NewCreate)`
       svg {
         margin-right: 12px;
       }
+    }
+    .accounts--Creator-advanced {
+      margin-top: 1.9rem;
     }
   }
   &&.ui--Modal-Wrapper > div.header {
