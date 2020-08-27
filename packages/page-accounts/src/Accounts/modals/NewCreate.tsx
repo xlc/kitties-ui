@@ -293,7 +293,7 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
                 className="ui--Print-btn"
               >
                 <Icon icon="print"/>
-                Print seed phrase
+                Print {seedType === 'bip' ? 'seed phrase' : 'raw seed'}
               </button>
             </div>
             <Checkbox
@@ -314,74 +314,56 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
         :
         <>
           <Modal.Content>
-            <Modal.Columns>
-              <Modal.Column>
-                <AddressRow
-                  defaultName={name}
-                  noDefaultNameOpacity
-                  value={address}
-                />
-              </Modal.Column>
-            </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <Input
-                  autoFocus
-                  help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
-                  isError={!isNameValid}
-                  label={t<string>('A DESCRIPTIVE NAME FOR YOUR ACCOUNT')}
-                  onChange={_onChangeName}
-                  placeholder={t<string>('Account Name')}
-                  value={name}
-                />
-              </Modal.Column>
-            </Modal.Columns>
-            <Modal.Columns>
-              <Modal.Column>
-                <NewPasswordInput
-                  onChange={_onPasswordChange}
-                  password={password}/>
-              </Modal.Column>
-            </Modal.Columns>
+            <AddressRow
+              defaultName={name}
+              noDefaultNameOpacity
+              value={address}
+            />
+            <Input
+              autoFocus
+              help={t<string>('Name given to this account. You can edit it. To use the account to validate or nominate, it is a good practice to append the function of the account in the name, e.g "name_you_want - stash".')}
+              isError={!isNameValid}
+              label={t<string>('A DESCRIPTIVE NAME FOR YOUR ACCOUNT')}
+              onChange={_onChangeName}
+              placeholder={t<string>('Account Name')}
+              value={name}
+            />
+            <NewPasswordInput
+              onChange={_onPasswordChange}
+              password={password}
+            />
             <Expander
               className='accounts--Creator-advanced'
               isOpen
               summary={t<string>('Advanced creation options')}
             >
-              <Modal.Columns>
-                <Modal.Column>
-                  <Dropdown
-                    defaultValue={pairType}
-                    help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
-                    label={t<string>('KEYPAIR CRYPTO TYPE')}
-                    onChange={_onChangePairType}
-                    options={uiSettings.availableCryptos}
-                  />
-                </Modal.Column>
-              </Modal.Columns>
-              <Modal.Columns>
-                <Modal.Column>
-                  <Input
-                    help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. An optional "///<password>" can be used with a mnemonic seed, and may only be specified once.')}
-                    isError={!!deriveError}
-                    label={t<string>('SECRET DERIVATION PATH')}
-                    onChange={_onChangeDerive}
-                    placeholder={
-                      seedType === 'raw'
-                        ? pairType === 'sr25519'
-                        ? t<string>('//hard/soft')
-                        : t<string>('//hard')
-                        : pairType === 'sr25519'
-                        ? t<string>('//hard/soft///password')
-                        : t<string>('//hard///password')
-                    }
-                    value={derivePath}
-                  />
-                  {deriveError && (
-                    <article className='error'>{deriveError}</article>
-                  )}
-                </Modal.Column>
-              </Modal.Columns>
+              <Dropdown
+                defaultValue={pairType}
+                help={t<string>('Determines what cryptography will be used to create this account. Note that to validate on Polkadot, the session account must use "ed25519".')}
+                label={t<string>('KEYPAIR CRYPTO TYPE')}
+                onChange={_onChangePairType}
+                options={uiSettings.availableCryptos}
+              />
+              <Input
+                help={t<string>('You can set a custom derivation path for this account using the following syntax "/<soft-key>//<hard-key>". The "/<soft-key>" and "//<hard-key>" may be repeated and mixed`. An optional "///<password>" can be used with a mnemonic seed, and may only be specified once.')}
+                isError={!!deriveError}
+                label={t<string>('SECRET DERIVATION PATH')}
+                onChange={_onChangeDerive}
+                placeholder={
+                  seedType === 'raw'
+                    ? pairType === 'sr25519'
+                    ? t<string>('//hard/soft')
+                    : t<string>('//hard')
+                    : pairType === 'sr25519'
+                    ? t<string>('//hard/soft///password')
+                    : t<string>('//hard///password')
+                }
+                value={derivePath}
+              />
+              {deriveError && (
+                <article className='error'>{deriveError}</article>
+              )}
+
             </Expander>
           </Modal.Content>
           <Button
@@ -444,7 +426,6 @@ export default styled(NewCreate)`
       padding: 0;
       background: none;
       border: none;
-      font-weight: 600;
       font-size: 14px;
       line-height: 22px;
       text-decoration: underline;

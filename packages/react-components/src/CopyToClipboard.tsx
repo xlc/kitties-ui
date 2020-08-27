@@ -24,7 +24,7 @@ function copy(id: string) {
 const CopyToClipboard = ({elementId, className}: CopyButtonProps) => (
   <button className={className} onClick={() => copy(elementId)}>
     <Icon icon="copy"/>
-    Copy to clippboard
+    Copy to clipboard
   </button>
 );
 
