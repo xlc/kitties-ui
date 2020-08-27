@@ -34,7 +34,6 @@ export default React.memo(styled(CopyToClipboard)`
   padding: 0;
   border: none;
   background: none;
-  font-weight: 600;
   font-size: 1rem;
   line-height: 1.5rem;
   text-decoration: underline;
