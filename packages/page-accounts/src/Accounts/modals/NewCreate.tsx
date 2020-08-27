@@ -293,7 +293,7 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
                 className="ui--Print-btn"
               >
                 <Icon icon="print"/>
-                Print seed phrase
+                Print {seedType === 'bip' ? 'seed phrase' : 'raw seed'}
               </button>
             </div>
             <Checkbox

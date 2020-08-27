@@ -119,7 +119,6 @@ export default css`
       font-weight: 100;
       line-height: 1.25rem;
       padding: 1.5rem 1.75rem 0;
-      text-transform: lowercase;
 
       > label {
         margin-top: 0.5rem;
