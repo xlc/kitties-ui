@@ -14,6 +14,7 @@ import chainRococoTrick from './chains/rococo-trick.svg';
 // defaults for the node type, assuming we don't have a specific chain, but rather match on the implementation
 import nodeAcala from './nodes/acala-circle.svg';
 import nodeCentrifuge from './nodes/centrifuge.png';
+import nodeCrab from './nodes/crab.svg';
 import nodeEdgeware from './nodes/edgeware-circle.svg';
 import nodeEncointerNotee from './nodes/encointer-notee.svg';
 import nodeEncointerTeeproxy from './nodes/encointer-teeproxy.svg';
@@ -21,7 +22,10 @@ import nodeNodle from './nodes/nodle.svg';
 import nodeKilt from './nodes/kilt.svg';
 import nodePolkadot from './nodes/polkadot-circle.svg';
 import nodePolkadotJs from './nodes/polkadot-js.svg';
+import nodeSubsocial from './nodes/subsocial.svg';
 import nodeSubstrate from './nodes/substrate-hexagon.svg';
+import nodeKulupu from './nodes/kulupu.svg';
+import nodeLaminar from './nodes/laminar-circle.svg';
 
 // extensions
 import extensionPolkadotJs from './extensions/polkadot-js.svg';
@@ -48,16 +52,18 @@ const chainLogos: Record<string, any> = [
 const nodeLogos: Record<string, any> = [
   ['centrifuge chain', nodeCentrifuge],
   ['Centrifuge Chain Node', nodeCentrifuge],
+  ['crab', nodeCrab],
   ['Edgeware Node', nodeEdgeware],
   ['Encointer Node', nodeEncointerNotee],
   ['Encointer Node noTEE', nodeEncointerNotee],
   ['Encointer Node TEE proxy', nodeEncointerTeeproxy],
   ['KILT Node', nodeKilt],
-  ['kulupu', nodeSubstrate],
+  ['kulupu', nodeKulupu],
   ['node-template', nodeSubstrate],
   ['Nodle Chain Node', nodeNodle],
   ['parity-polkadot', nodePolkadot],
   ['polkadot-js', nodePolkadotJs],
+  ['subsocial-node', nodeSubsocial],
   ['substrate-node', nodeSubstrate]
 ].reduce((logos, [node, logo]): Record<string, any> => ({
   ...logos,
@@ -69,16 +75,22 @@ const namedLogos: Record<string, any> = {
   acala: nodeAcala,
   alexander: nodePolkadot,
   centrifuge: nodeCentrifuge,
+  crab: nodeCrab,
   edgeware: nodeEdgeware,
   empty: emptyLogo,
   kilt: nodeKilt,
+  kulupu: nodeKulupu,
   kusama: chainKusama,
+  laminar: nodeLaminar,
   nodle: nodeNodle,
   polkadot: nodePolkadot,
   rococo: chainRococo,
+  rococoAcala: nodeAcala,
+  rococoLaminar: nodeLaminar,
   rococoTick: chainRococoTick,
   rococoTrack: chainRococoTrack,
   rococoTrick: chainRococoTrick,
+  subsocial: nodeSubsocial,
   substrate: nodeSubstrate,
   westend: nodePolkadot
 };

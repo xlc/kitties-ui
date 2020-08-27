@@ -285,9 +285,11 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
                 options={seedOpt}
               />
             </InputNew>
-            
+
             <div className="ui--Buttons-row">
-              <CopyToClipboard elementId="printJS-seed"/>
+              <CopyToClipboard
+                className="ui--Print-btn"
+                elementId="printJS-seed"/>
               <button
                 onClick={onPrintSeed}
                 className="ui--Print-btn"
@@ -300,7 +302,7 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
               onChange={_toggleMnemonicSaved}
               value={isMnemonicSaved}
               label={<>{t<string>('I have saved my mnemonic seed safely')}</>}
-            />  
+            />
           </Modal.Content>
           <div className='ui--Modal-Footer'>
             <Button

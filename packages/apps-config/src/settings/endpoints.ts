@@ -10,6 +10,7 @@ import { CUSTOM_ENDPOINT_KEY } from './constants';
 export interface LinkOption extends Option {
   dnslink?: string;
   isChild?: boolean;
+  isDevelopment?: boolean;
 }
 
 interface EnvWindow {
@@ -60,7 +61,6 @@ function createLive (t: TFunction): LinkOption[] {
       value: 'wss://rpc.polkadot.io'
     },
     {
-      dnslink: 'polkadot',
       info: 'polkadot',
       text: t<string>('rpc.polkadot.w3f', 'Polkadot (Live, hosted by Web3 Foundation)', { ns: 'apps-config' }),
       value: 'wss://cc1-1.polkadot.network'
@@ -72,13 +72,11 @@ function createLive (t: TFunction): LinkOption[] {
       value: 'wss://kusama-rpc.polkadot.io'
     },
     {
-      dnslink: 'kusama',
       info: 'kusama',
       text: t<string>('rpc.kusama.w3f', 'Kusama (Polkadot Canary, hosted by Web3 Foundation)', { ns: 'apps-config' }),
       value: 'wss://cc3-5.kusama.network'
     },
     {
-      dnslink: 'kusama',
       info: 'kusama',
       isDisabled: true,
       text: t<string>('rpc.kusama.ava', 'Kusama (Polkadot Canary, user-run public nodes; see https://status.cloud.ava.do/)', { ns: 'apps-config' }),
@@ -92,6 +90,11 @@ function createLive (t: TFunction): LinkOption[] {
       value: 'wss://fullnode.centrifuge.io'
     },
     {
+      info: 'crab',
+      text: t<string>('rpc.crab', 'Darwinia Crab (Darwinia Canary, hosted by Darwinia Network)', { ns: 'apps-config' }),
+      value: 'wss://crab.darwinia.network'
+    },
+    {
       dnslink: 'edgeware',
       info: 'edgeware',
       text: t<string>('rpc.edgeware', 'Edgeware (Mainnet, hosted by Commonwealth Labs)', { ns: 'apps-config' }),
@@ -99,9 +102,19 @@ function createLive (t: TFunction): LinkOption[] {
     },
     {
       dnslink: 'kulupu',
-      info: 'substrate',
+      info: 'kulupu',
       text: t<string>('rpc.kulupu', 'Kulupu (Kulupu Mainnet, hosted by Kulupu)', { ns: 'apps-config' }),
-      value: 'wss://rpc.kulupu.network/ws'
+      value: 'wss://rpc.kulupu.corepaper.org/ws'
+    },
+    {
+      info: 'nodle',
+      text: t<string>('rpc.nodle-main', 'Nodle Main (Nodle Mainnet, hosted by Nodle)', { ns: 'apps-config' }),
+      value: 'wss://main1.nodleprotocol.io'
+    },
+    {
+      info: 'subsocial',
+      text: t<string>('rpc.subsocial', 'Subsocial (Subsocial Network, hosted by DappForce)', { ns: 'apps-config' }),
+      value: 'wss://rpc.subsocial.network'
     }
   ];
 }
@@ -134,6 +147,18 @@ function createTest (t: TFunction): LinkOption[] {
       value: 'wss://track-rpc.polkadot.io'
     },
     {
+      info: 'rococoAcala',
+      isChild: true,
+      text: t<string>('rpc.rococo.acala', 'Mandala PC1 (Acala Testpara, hosted by Acala)', { ns: 'apps-config' }),
+      value: 'wss://rococo-1.acala.laminar.one'
+    },
+    {
+      info: 'rococoLaminar',
+      isChild: true,
+      text: t<string>('rpc.rococo.laminar', 'Turbulence PC1 (Laminar Testpara, hosted by Laminar)', { ns: 'apps-config' }),
+      value: 'wss://rococo-1.laminar-chain.laminar.one'
+    },
+    {
       dnslink: 'westend',
       info: 'westend',
       text: t<string>('rpc.westend', 'Westend (Polkadot Testnet, hosted by Parity)', { ns: 'apps-config' }),
@@ -147,7 +172,7 @@ function createTest (t: TFunction): LinkOption[] {
     },
     {
       info: 'nodle',
-      text: t<string>('rpc.arcadia', 'Arcadia (Nodle Testnet, hosted by Nodle)', { ns: 'apps-config' }),
+      text: t<string>('rpc.nodle-arcadia', 'Arcadia (Nodle Testnet, hosted by Nodle)', { ns: 'apps-config' }),
       value: 'wss://arcadia1.nodleprotocol.io'
     },
     {
@@ -175,6 +200,11 @@ function createTest (t: TFunction): LinkOption[] {
       info: 'kilt',
       text: t<string>('rpc.kilt', 'Mashnet (KILT Canary, hosted by KILT Protocol)', { ns: 'apps-config' }),
       value: 'wss://full-nodes.kilt.io:9944/'
+    },
+    {
+      info: 'laminar',
+      text: t<string>('rpc.turbulence', 'Turbulence (Laminar Testnet, hosted by Laminar)', { ns: 'apps-config' }),
+      value: 'wss://testnet-node-1.laminar-chain.laminar.one/ws'
     }
   ];
 }
@@ -222,6 +252,7 @@ export default function create (t: TFunction): LinkOption[] {
     },
     ...createTest(t),
     {
+      isDevelopment: true,
       isHeader: true,
       text: t<string>('rpc.header.dev', 'Development', { ns: 'apps-config' }),
       value: ''

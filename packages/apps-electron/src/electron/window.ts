@@ -20,9 +20,8 @@ export function createWindow (environment: string): Promise<unknown> {
     width
   });
 
+  win.webContents.openDevTools();
   if (environment === 'development') {
-    win.webContents.openDevTools();
-
     return win.loadURL('http://0.0.0.0:3000/');
   }
 
