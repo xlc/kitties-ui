@@ -76,7 +76,6 @@ export default React.memo(styled(Labelled)`
     }
 
     &:not(.isSmall) {
-      padding-left: 2rem;
 
       &:not(.isOuter) {
         > label,
@@ -114,11 +113,6 @@ export default React.memo(styled(Labelled)`
         min-width: 0;
 
         .ui.selection.dropdown {
-          &:not(.floating) {
-            padding-left: 1.45rem;
-            padding-top: 1.75rem;
-          }
-
           &.floating {
             > .dropdown.icon {
               top: 1.25rem;

@@ -67,7 +67,7 @@ function Expander ({ children, className = '', help, isOpen, summary, summaryMet
         <div className='ui--Expander-summary-header'>
           {help && <LabelHelp help={help}/>}
           {hasContent
-            ? <Icon icon={isExpanded ? 'angle-double-down' : 'angle-double-right'} />
+            ? <Icon icon={isExpanded ? 'caret-up' : 'caret-down'} />
             : withDot
               ? <Icon icon='circle' />
               : undefined
@@ -86,7 +86,6 @@ function Expander ({ children, className = '', help, isOpen, summary, summaryMet
 
 export default React.memo(styled(Expander)`
   max-width: 100%;
-  overflow: hidden;
   text-overflow: ellipsis;
 
   &:not(.isExpanded) .ui--Expander-content {
@@ -114,8 +113,17 @@ export default React.memo(styled(Expander)`
       min-width: 10rem;
     }
 
+    .ui--Expander-summary-header > svg {
+      width: 0.8rem;
+      height: 0.8rem;
+    }
+
     > div {
-      overflow: hidden;
+      font-weight: 800;
+      font-size: 10px;
+      line-height: 14px;
+      text-transform: uppercase;
+      color: #000000;
       text-overflow: ellipsis;
     }
 
