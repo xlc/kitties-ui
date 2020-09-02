@@ -10,7 +10,7 @@ interface InputSectionProps {
   className?: string,
 }
 
-const InputSection = ({children, className}: InputSectionProps) => (
+const InputSection = ({ children, className }: InputSectionProps) => (
   <div className={className}>{children}</div>
 );
 
@@ -19,4 +19,3 @@ export default React.memo(styled(InputSection)`
     margin-top: 17px;
   }
 `);
-

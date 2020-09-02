@@ -1,3 +1,7 @@
+// Copyright 2017-2020 @polkadot/react-components authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
+
 import React from 'react';
 
 import Labelled from './LabelledNew';
@@ -7,13 +11,13 @@ import styled from 'styled-components';
 interface Props {
   children?: React.ReactNode;
   className?: string;
-  seed?: string;
   help?: React.ReactNode;
-  isFull?: boolean;
+  isAction?: boolean;
+  isError?: boolean;
+  isReadOnly?: boolean;
   label?: React.ReactNode;
-  labelExtra?: React.ReactNode;
-  withLabel?: boolean;
-  withEllipsis?: boolean;
+  onChange?: (arg: string) => void;
+  seed?: string;
 }
 
 // // Find decimal separator used in current locale
@@ -55,24 +59,20 @@ const isPaste = (key: string, isPreKeyDown: boolean): boolean =>
 const isSelectAll = (key: string, isPreKeyDown: boolean): boolean =>
   isPreKeyDown && key === KEYS.A;
 
-function TextAriaWithLabel ({children, seed, className, help, isFull = false, label, labelExtra, withEllipsis, withLabel }: Props): React.ReactElement<Props> {
+function TextAriaWithLabel ({ children, className, help, isReadOnly, label, onChange, seed }: Props): React.ReactElement<Props> {
   return (
     <Labelled
       className={className}
       help={help}
-      isFull={isFull}
-      label={label}
-      labelExtra={labelExtra}
-      withEllipsis={withEllipsis}
-      withLabel={withLabel}
       isOuter
-      isSmall
+      label={label}
     >
       <div className='TextAreaWithDropdown'>
         <TextAreaWithDropdown
-          isReadOnly
+          id='printJS-seed'
+          isReadOnly={isReadOnly}
+          onChange={onChange}
           value={seed}
-          id="printJS-seed"
         >
           {children}
         </TextAreaWithDropdown>

@@ -1,18 +1,22 @@
-import React, {useCallback, useMemo, useState} from 'react';
-import {ModalProps} from '@polkadot/app-accounts/types';
-import {ActionStatus} from '@polkadot/react-components/Status/types';
-import {KeypairType} from '@polkadot/util-crypto/types';
-import {AddressRow, Button, Checkbox, CopyToClipboard, DropdownNew, Expander, InputNew, InputAddress, Modal, Icon, InputSection} from '@polkadot/react-components';
-import {useTranslation} from '@polkadot/app-accounts/translate';
+// Copyright 2017-2020 @polkadot/app-accounts authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
+
+import React, { useCallback, useMemo, useState } from 'react';
+import { ModalProps } from '@polkadot/app-accounts/types';
+import { ActionStatus } from '@polkadot/react-components/Status/types';
+import { KeypairType } from '@polkadot/util-crypto/types';
+import { AddressRow, Button, Checkbox, CopyToClipboard, DropdownNew, Expander, InputNew, InputAddress, Modal, Icon, InputSection } from '@polkadot/react-components';
+import { useTranslation } from '@polkadot/app-accounts/translate';
 import keyring from '@polkadot/ui-keyring';
-import {keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a} from '@polkadot/util-crypto';
-import {DEV_PHRASE} from '@polkadot/keyring/defaults';
-import {isHex, u8aToHex} from '@polkadot/util';
-import {useApi} from '@polkadot/react-hooks';
+import { keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
+import { DEV_PHRASE } from '@polkadot/keyring/defaults';
+import { isHex, u8aToHex } from '@polkadot/util';
+import { useApi } from '@polkadot/react-hooks';
 import styled from 'styled-components';
 import NewPasswordInput from '../NewPasswordInput';
 import uiSettings from '@polkadot/ui-settings';
-import print from 'print-js'
+import print from 'print-js';
 import ToastProvider from '@polkadot/react-components/Toast/ToastProvider';
 import TextAriaWithLabel from '@polkadot/react-components/TextAriaWithLabel';
 
@@ -95,11 +99,9 @@ function isHexSeed (seed: string): boolean {
   return isHex(seed) && seed.length === 66;
 }
 
-
 function rawValidate (seed: string): boolean {
   return ((seed.length > 0) && (seed.length <= 32)) || isHexSeed(seed);
 }
-
 
 function updateAddress (seed: string, derivePath: string, seedType: SeedType, pairType: KeypairType): AddressState {
   const deriveError = deriveValidate(seed, seedType, derivePath, pairType);
@@ -146,7 +148,6 @@ function createAccount (suri: string, pairType: KeypairType, { genesisHash, name
     status.message = success;
 
     InputAddress.setLastValue('account', address);
-
   } catch (error) {
     status.status = 'error';
     status.message = (error as Error).message;
@@ -190,7 +191,7 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
 
   const _toggleMnemonicSaved = () => {
     setIsMnemonicSaved(!isMnemonicSaved);
-  }
+  };
 
   const _nextStep = useCallback(
     () => setStep((step) => step + 1),
@@ -219,7 +220,7 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
 
   const onPrintSeed = () => {
     print('printJS-seed', 'html');
-  }
+  };
 
   const _onCommit = useCallback(
     (): void => {
@@ -252,61 +253,60 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
         icon='times'
         onClick={onClose}
       />
-      {step === 1 ?
-        <>
+      {step === 1
+        ? <>
           <Modal.Content>
             <ToastProvider>
-            <AddressRow
-              defaultName={name}
-              noDefaultNameOpacity
-              value={isSeedValid ? address : ''}
-            />
-            <article className="ui--Warning">
-              <Icon icon="exclamation-triangle"/>
-              <div>{t<string>(`PLEASE WRITE   DOWN YOUR WALLET'S MNEMONIC SEED AND KEEP IT IN A SAFE PLACE`)}</div>
-            </article>
-            <TextAriaWithLabel
-              help={t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
-              isAction
-              isError={!isSeedValid}
-              isReadOnly={seedType === 'dev'}
-              label={
-                seedType === 'bip'
-                  ? t<string>('mnemonic seed')
-                  : seedType === 'dev'
-                  ? t<string>('development seed')
-                  : t<string>('seed (hex or string)')
-              }
-              onChange={_onChangeSeed}
-              seed={seed}
-            >
-              <DropdownNew
-                classNameButton='seedDropdown'
-                defaultValue={seedType}
-                isButton
-                onChange={_selectSeedType}
-                options={seedOpt}
+              <AddressRow
+                defaultName={name}
+                noDefaultNameOpacity
+                value={isSeedValid ? address : ''}
               />
-            </TextAriaWithLabel>
-
-            <div className="ui--Buttons-row">
-              <CopyToClipboard
-                className="ui--Print-btn"
-                elementId="printJS-seed"/>
-              <button
-                onClick={onPrintSeed}
-                className="ui--Print-btn"
+              <article className='ui--Warning'>
+                <Icon icon='exclamation-triangle'/>
+                <div>{t<string>("PLEASE WRITE   DOWN YOUR WALLET'S MNEMONIC SEED AND KEEP IT IN A SAFE PLACE")}</div>
+              </article>
+              <TextAriaWithLabel
+                help={t<string>('The private key for your account is derived from this seed. This seed must be kept secret as anyone in its possession has access to the funds of this account. If you validate, use the seed of the session account as the "--key" parameter of your node.')}
+                isAction
+                isError={!isSeedValid}
+                isReadOnly={seedType === 'dev'}
+                label={
+                  seedType === 'bip'
+                    ? t<string>('mnemonic seed')
+                    : seedType === 'dev'
+                      ? t<string>('development seed')
+                      : t<string>('seed (hex or string)')
+                }
+                onChange={_onChangeSeed}
+                seed={seed}
               >
-                <Icon icon="print"/>
-                Print {seedType === 'bip' ? 'seed phrase' : 'raw seed'}
-              </button>
-            </div>
-            <Checkbox
-              onChange={_toggleMnemonicSaved}
-              value={isMnemonicSaved}
-              label={<>{t<string>('I have saved my mnemonic seed safely')}</>}
-            />
-          </ToastProvider>
+                <DropdownNew
+                  classNameButton='seedDropdown'
+                  defaultValue={seedType}
+                  isButton
+                  onChange={_selectSeedType}
+                  options={seedOpt}
+                />
+              </TextAriaWithLabel>
+              <div className='ui--Buttons-row'>
+                <CopyToClipboard
+                  className='ui--Print-btn'
+                  elementId='printJS-seed'/>
+                <button
+                  className='ui--Print-btn'
+                  onClick={onPrintSeed}
+                >
+                  <Icon icon='print'/>
+                  Print {seedType === 'bip' ? 'seed phrase' : 'raw seed'}
+                </button>
+              </div>
+              <Checkbox
+                label={<>{t<string>('I have saved my mnemonic seed safely')}</>}
+                onChange={_toggleMnemonicSaved}
+                value={isMnemonicSaved}
+              />
+            </ToastProvider>
           </Modal.Content>
           <div className='ui--Modal-Footer'>
             <Button
@@ -317,8 +317,7 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
             />
           </div>
         </>
-        :
-        <>
+        : <>
           <Modal.Content>
             <AddressRow
               defaultName={name}
@@ -365,11 +364,11 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
                   placeholder={
                     seedType === 'raw'
                       ? pairType === 'sr25519'
-                      ? t<string>('//hard/soft')
-                      : t<string>('//hard')
+                        ? t<string>('//hard/soft')
+                        : t<string>('//hard')
                       : pairType === 'sr25519'
-                      ? t<string>('//hard/soft///password')
-                      : t<string>('//hard///password')
+                        ? t<string>('//hard/soft///password')
+                        : t<string>('//hard///password')
                   }
                   value={derivePath}
                 />
@@ -390,7 +389,7 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
         </>
       }
     </Modal>
-  )
+  );
 }
 
 export default styled(NewCreate)`

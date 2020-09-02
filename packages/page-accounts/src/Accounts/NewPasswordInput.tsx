@@ -14,7 +14,7 @@ type Props = {
   className?: string;
 }
 
-function NewPasswordInput ({ onChange, password, className }: Props): React.ReactElement {
+function NewPasswordInput ({ className, onChange, password }: Props): React.ReactElement {
   const { t } = useTranslation();
   const [isPassValid, setPassValid] = useState<boolean>(false);
   const [{ isPass2Valid, password2 }, setPassword2] = useState({ isPass2Valid: false, password2: '' });
@@ -47,7 +47,7 @@ function NewPasswordInput ({ onChange, password, className }: Props): React.Reac
 
   return (
     <div className={className}>
-      <div className="ui--Row">
+      <div className='ui--Row'>
         <div>
           <PasswordInputNew
             className='full'
@@ -84,4 +84,4 @@ export default React.memo(styled(NewPasswordInput)`
       margin-left: 25px;
     }
   }
-`)
+`);

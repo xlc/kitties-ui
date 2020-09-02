@@ -110,19 +110,19 @@ function BaseDropdown<Option> ({ allowAdd = false, className = '', defaultValue,
       {isButton
         ? <SUIButton.Group>{dropdown}</SUIButton.Group>
         : <Labelled
-            className='ui--Dropdown'
-            help={help}
-            isFull={isFull}
-            label={label}
-            labelExtra={labelExtra}
-            withEllipsis={withEllipsis}
-            withLabel={withLabel}
-          >
-            {dropdown}
-          </Labelled>
+          className='ui--Dropdown'
+          help={help}
+          isFull={isFull}
+          label={label}
+          labelExtra={labelExtra}
+          withEllipsis={withEllipsis}
+          withLabel={withLabel}
+        >
+          {dropdown}
+        </Labelled>
       }
     </div>
-  )
+  );
 }
 
 const Dropdown = React.memo(styled(BaseDropdown)`
