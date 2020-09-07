@@ -391,6 +391,10 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
 }
 
 export default styled(NewCreate)`
+  & * {
+    font-family: 'Nunito Sans', sans-serif;
+  }
+
   &.ui--Modal-Wrapper.medium {
     width: 655px;
   }
