@@ -131,7 +131,7 @@ const DropdownNew = React.memo(styled(BaseDropdown)`
   & .ui.selection.dropdown {
     display: flex;
     align-items: center;
-    padding: 0.65rem 1.15rem;
+    padding: 0.65rem 3rem 0.65rem 1.15rem;
     font-size: 1.15rem;
     line-height: 1.5rem;
     color: #000000;

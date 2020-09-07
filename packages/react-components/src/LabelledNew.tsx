@@ -65,6 +65,17 @@ export default React.memo(styled(Labelled)`
       white-space: nowrap;
     }
 
+    .ui--Labelled-content {
+      .ui.selection.dropdown > .dropdown.icon {
+        top: 1.75rem;
+      }
+
+      .ui.action.input .ui.selection.dropdown {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
+
     &.isSmall {
       display: block;
 
@@ -111,8 +122,9 @@ export default React.memo(styled(Labelled)`
         box-sizing: border-box;
         flex: 1 1;
         min-width: 0;
-
+        
         .ui.selection.dropdown {
+
           &.floating {
             > .dropdown.icon {
               top: 1.25rem;
@@ -130,7 +142,6 @@ export default React.memo(styled(Labelled)`
           }
 
           > .delete.icon,
-          > .dropdown.icon,
           > .search.icon {
             top: 1.75rem;
           }
