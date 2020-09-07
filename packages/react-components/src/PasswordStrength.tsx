@@ -4,7 +4,7 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import owasp from 'owasp-password-strength-test'
+import owasp from 'owasp-password-strength-test';
 
 interface Props {
   className?: string;
@@ -13,25 +13,32 @@ interface Props {
 
 function calcStrength (password: string): number {
   owasp.config({
-    allowPassphrases       : true,
-    maxLength              : 128,
-    minLength              : 8,
-    minPhraseLength        : 20
+    allowPassphrases: true,
+    maxLength: 128,
+    minLength: 8,
+    minPhraseLength: 20
   });
   const passedTests = owasp.test(password).passedTests.length;
-  return owasp.test(password).isPassphrase ? 6 : passedTests - 2 ;
+
+  return owasp.test(password).isPassphrase ? 6 : passedTests - 2;
 }
 
 function PasswordStrength ({ className = '', value }: Props): React.ReactElement<Props> {
   // No need for memo, component is already memo-ed (only changes on value)
   const passwordStrength = calcStrength(value);
-  const style = { width: `${passwordStrength * 100/6}%` };
+  const style = { width: `${passwordStrength * 100 / 6}%` };
 
   return (
-    <div className={className} style={{display: passwordStrength ? 'flex' : 'none'}}>
+    <div
+      className={className}
+      style={{ display: passwordStrength ? 'flex' : 'none' }}
+    >
       week
       <div className='ui--Strength-bar'>
-        <div className='ui--Strength-bar-highlighted' style={style} />
+        <div
+          className='ui--Strength-bar-highlighted'
+          style={style}
+        />
       </div>
       strong
     </div>

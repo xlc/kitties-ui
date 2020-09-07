@@ -122,9 +122,8 @@ export default React.memo(styled(Labelled)`
         box-sizing: border-box;
         flex: 1 1;
         min-width: 0;
-        
-        .ui.selection.dropdown {
 
+        .ui.selection.dropdown {
           &.floating {
             > .dropdown.icon {
               top: 1.25rem;

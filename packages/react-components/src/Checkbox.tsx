@@ -24,7 +24,10 @@ function Checkbox ({ className = '', isDisabled, label, onChange, value }: Props
   );
 
   return (
-    <div onClick={_onClick} className={`ui--Checkbox${isDisabled ? ' isDisabled' : ''} ${className}`}>
+    <div
+      className={`ui--Checkbox${isDisabled ? ' isDisabled' : ''} ${className}`}
+      onClick={_onClick}
+    >
       <Icon
         color={value ? 'normal' : 'transparent'}
         icon='check'

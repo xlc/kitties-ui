@@ -13,6 +13,7 @@ import LabelledNew from './LabelledNew';
 interface Props<Option> {
   allowAdd?: boolean;
   className?: string;
+  classNameButton?: string;
   defaultValue?: any;
   dropdownClassName?: string;
   help?: React.ReactNode;
@@ -42,7 +43,7 @@ export type IDropdown<Option> = React.ComponentType<Props<Option>> & {
   Header: React.ComponentType<{ content: React.ReactNode }>;
 }
 
-function BaseDropdown<Option> ({ allowAdd = false, className = '', defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isFull, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, transform, value, withEllipsis, withLabel }: Props<Option>): React.ReactElement<Props<Option>> {
+function BaseDropdown<Option> ({ allowAdd = false, className = '', classNameButton = '', defaultValue, dropdownClassName, help, isButton, isDisabled, isError, isFull, isMultiple, label, labelExtra, onAdd, onBlur, onChange, onClose, onSearch, options, placeholder, renderLabel, searchInput, transform, value, withEllipsis, withLabel }: Props<Option>): React.ReactElement<Props<Option>> {
   const lastUpdate = useRef<string>('');
   const [stored, setStored] = useState<string | undefined>();
 
@@ -108,23 +109,23 @@ function BaseDropdown<Option> ({ allowAdd = false, className = '', defaultValue,
   return (
     <div className={className}>
       {isButton
-        ? <SUIButton.Group>{dropdown}</SUIButton.Group>
+        ? <SUIButton.Group className={classNameButton}>{dropdown}</SUIButton.Group>
         : <LabelledNew
-            className='ui--Dropdown'
-            help={help}
-            isFull={isFull}
-            label={label}
-            isOuter
-            labelExtra={labelExtra}
-            withEllipsis={withEllipsis}
-            withLabel={withLabel}
-          >
-            {dropdown}
-          </LabelledNew>
-          
+          className='ui--Dropdown'
+          help={help}
+          isFull={isFull}
+          isOuter
+          label={label}
+          labelExtra={labelExtra}
+          withEllipsis={withEllipsis}
+          withLabel={withLabel}
+        >
+          {dropdown}
+        </LabelledNew>
+
       }
     </div>
-  )
+  );
 }
 
 const DropdownNew = React.memo(styled(BaseDropdown)`
@@ -176,6 +177,9 @@ const DropdownNew = React.memo(styled(BaseDropdown)`
         margin-left: 0;
       }
     }
+  }
+  .seedDropdown {
+    height: 100%
   }
 `) as unknown as IDropdown<any>;
 

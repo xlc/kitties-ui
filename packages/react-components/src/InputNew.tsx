@@ -142,12 +142,12 @@ function InputNew ({ autoFocus = false, children, className, defaultValue, help,
       className={className}
       help={help}
       isFull={isFull}
+      isOuter
+      isSmall
       label={label}
       labelExtra={labelExtra}
       withEllipsis={withEllipsis}
       withLabel={withLabel}
-      isOuter
-      isSmall
     >
       <SUIInput
         action={isAction}
