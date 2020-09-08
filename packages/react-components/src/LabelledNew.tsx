@@ -115,7 +115,7 @@ export default React.memo(styled(Labelled)`
         .ui.selection.dropdown {
           &.floating {
             > .dropdown.icon {
-              top: 1.25rem;
+              top: 1.95rem;
             }
 
             .text {
@@ -130,7 +130,7 @@ export default React.memo(styled(Labelled)`
           }
 
           > .delete.icon,
-          > .dropdown.icon,
+          .dropdown.icon,
           > .search.icon {
             top: 1.75rem;
           }

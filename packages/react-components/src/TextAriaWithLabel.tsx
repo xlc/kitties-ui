@@ -81,11 +81,24 @@ function TextAriaWithLabel ({ children, className, help, isReadOnly, label, onCh
   );
 }
 
-export default styled(React.memo(TextAriaWithLabel))`
+export default React.memo(styled(TextAriaWithLabel)`
   .TextAreaWithDropdown {
     display: flex;
+
+    textarea {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      background: #fff;
+      border-color: #DFDFDF;
+      border-right: none;
+    }
+
+    .ui.selection.dropdown {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
   }
-  `;
+`);
 
 export {
   isCopy,

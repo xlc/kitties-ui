@@ -21,7 +21,6 @@ export function createWindow (environment: string): Promise<unknown> {
   });
 
   win.webContents.openDevTools();
-
   if (environment === 'development') {
     return win.loadURL('http://0.0.0.0:3000/');
   }

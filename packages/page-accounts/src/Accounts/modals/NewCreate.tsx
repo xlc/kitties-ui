@@ -6,7 +6,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { ModalProps } from '@polkadot/app-accounts/types';
 import { ActionStatus } from '@polkadot/react-components/Status/types';
 import { KeypairType } from '@polkadot/util-crypto/types';
-import { AddressRow, Button, Checkbox, CopyToClipboard, DropdownNew, Expander, InputNew, InputAddress, Modal, Icon, InputSection } from '@polkadot/react-components';
+import { AddressRow, Button, BackButton, Checkbox, CopyToClipboard, DropdownNew, Expander, InputNew, InputAddress, Modal, Icon, InputSection } from '@polkadot/react-components';
 import { useTranslation } from '@polkadot/app-accounts/translate';
 import keyring from '@polkadot/ui-keyring';
 import { keyExtractSuri, mnemonicGenerate, mnemonicValidate, randomAsU8a } from '@polkadot/util-crypto';
@@ -381,6 +381,7 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
             </Expander>
           </Modal.Content>
           <div className='ui--Modal-Footer'>
+            <BackButton className="ui--Modal-back-button" onClick={() => setStep(1)} />
             <Button
               icon='plus'
               isSelected={true}
@@ -391,10 +392,14 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
         </>
       }
     </Modal>
-  );
+  )
 }
 
 export default styled(NewCreate)`
+  & * {
+    font-family: 'Nunito Sans', sans-serif;
+  }
+
   &.ui--Modal-Wrapper.medium {
     width: 655px;
   }
@@ -468,5 +473,9 @@ export default styled(NewCreate)`
     padding: 1.1rem 1.7rem;
     background: #ECECEC;
     border-top: 1px solid #DFDFDF;
+
+  }
+  .ui--Modal-Footer .ui--Modal-back-button {
+    margin-right: auto;
   }
 `;
