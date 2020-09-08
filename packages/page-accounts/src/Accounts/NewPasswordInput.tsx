@@ -56,6 +56,7 @@ function NewPasswordInput ({ className, onChange, password }: Props): React.Reac
             label={t<string>('A NEW PASSWORD TO THIS ACCOUNT')}
             onChange={_onPasswordChange}
             value={password}
+            data-testid='password'
           />
           <PasswordStrength value={password} />
         </div>
@@ -66,6 +67,7 @@ function NewPasswordInput ({ className, onChange, password }: Props): React.Reac
           label={t<string>('A NEW PASSWORD TO THIS ACCOUNT')}
           onChange={onPassword2Change}
           value={password2}
+          data-testid='password2'
         />
       </div>
     </div>

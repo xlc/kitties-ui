@@ -305,6 +305,7 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
                 label={<>{t<string>('I have saved my mnemonic seed safely')}</>}
                 onChange={_toggleMnemonicSaved}
                 value={isMnemonicSaved}
+                data-testid='isSeedSaved-Checkbox'
               />
             </ToastProvider>
           </Modal.Content>
@@ -333,6 +334,7 @@ function NewCreate ({ className = '', onClose, onStatusChange, seed: propsSeed, 
                 onChange={_onChangeName}
                 placeholder={t<string>('Account Name')}
                 value={name}
+                data-testid='accountName'
               />
             </InputSection>
             <InputSection>

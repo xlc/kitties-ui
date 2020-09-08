@@ -221,6 +221,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           isDisabled={isIpfs}
           label={t<string>('Add account 2')}
           onClick={toggleCreate2}
+          data-testid='addAccount2'
         />
         <Button
           icon='sync'
