@@ -97,10 +97,8 @@ export default createGlobalStyle<Props>`
   .ui--Button {
     &:not(.isDisabled):not(.isIcon):not(.isBasic),
     &.withoutLink:not(.isDisabled) {
-      .ui--Icon {
-        background: ${getHighlight};
-        color: #f5f5f4;
-      }
+      background: ${getHighlight};
+      color: #fff;
     }
 
     &.isBasic:not(.isDisabled):not(.isIcon):not(.isSelected) {

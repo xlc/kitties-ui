@@ -17,7 +17,7 @@ export default css`
 
   .ui.dropdown,
   .ui.input {
-    margin: 0.25rem 0;
+    margin: 0.25rem 0 0;
   }
 
   .ui.selection.dropdown,

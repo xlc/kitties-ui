@@ -13,7 +13,7 @@ import keyring from '@polkadot/ui-keyring';
 import { getLedger, isLedger } from '@polkadot/react-api';
 import { useApi, useAccounts, useCall, useFavorites, useIpfs, useLoadingDelay, useToggle } from '@polkadot/react-hooks';
 import { FormatBalance } from '@polkadot/react-query';
-import { Button, Input, Table } from '@polkadot/react-components';
+import { Button, Icon, InputNew, Table } from '@polkadot/react-components';
 import { BN_ZERO } from '@polkadot/util';
 
 import { useTranslation } from '../translate';
@@ -159,13 +159,17 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   const filter = useMemo(() => (
     <div className='filter--tags'>
-      <Input
-        autoFocus
-        isFull
-        label={t<string>('filter by name or tags')}
-        onChange={setFilter}
-        value={filterOn}
-      />
+      <div className="filter-input-wrapper">
+        <InputNew
+          autoFocus
+          isFull
+          label={t<string>('filter by name or tags')}
+          placeholder="Search"
+          onChange={setFilter}
+          value={filterOn}
+        />
+        <Icon icon='search'/>
+      </div>
     </div>
   ), [filterOn, t]);
 
@@ -209,56 +213,58 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           onStatusChange={onStatusChange}
         />
       )}
-      <Button.Group>
-        <Button
-          icon='plus'
-          isDisabled={isIpfs}
-          label={t<string>('Add account')}
-          onClick={toggleCreate}
-        />
-        <Button
-          icon='plus'
-          isDisabled={isIpfs}
-          label={t<string>('Add account 2')}
-          onClick={toggleCreate2}
-          data-testid='addAccount2'
-        />
-        <Button
-          icon='sync'
-          isDisabled={isIpfs}
-          label={t<string>('Restore JSON')}
-          onClick={toggleImport}
-        />
-        <Button
-          icon='qrcode'
-          label={t<string>('Add via Qr')}
-          onClick={toggleQr}
-        />
-        {isLedger() && (
-          <>
-            <Button
-              icon='question'
-              label={t<string>('Query Ledger')}
-              onClick={queryLedger}
-            />
-          </>
-        )}
-        <Button
-          icon='plus'
-          isDisabled={!(api.tx.multisig || api.tx.utility)}
-          label={t<string>('Multisig')}
-          onClick={toggleMultisig}
-        />
-        <Button
-          icon='plus'
-          isDisabled={!api.tx.proxy}
-          label={t<string>('Proxied')}
-          onClick={toggleProxy}
-        />
-      </Button.Group>
+      <div className="accounts-top-row">
+        {filter}
+        <Button.Group>
+          <Button
+            icon='plus'
+            isDisabled={isIpfs}
+            label={t<string>('Add account')}
+            onClick={toggleCreate}
+          />
+          <Button
+            icon='plus'
+            isDisabled={isIpfs}
+            label={t<string>('Add account 2')}
+            onClick={toggleCreate2}
+            data-testid='addAccount2'
+          />
+          <Button
+            icon='sync'
+            isDisabled={isIpfs}
+            label={t<string>('Restore JSON')}
+            onClick={toggleImport}
+          />
+          <Button
+            icon='qrcode'
+            label={t<string>('Add via Qr')}
+            onClick={toggleQr}
+          />
+          {isLedger() && (
+            <>
+              <Button
+                icon='question'
+                label={t<string>('Query Ledger')}
+                onClick={queryLedger}
+              />
+            </>
+          )}
+          <Button
+            icon='plus'
+            isDisabled={!(api.tx.multisig || api.tx.utility)}
+            label={t<string>('Multisig')}
+            onClick={toggleMultisig}
+          />
+          <Button
+            icon='plus'
+            isDisabled={!api.tx.proxy}
+            label={t<string>('Proxied')}
+            onClick={toggleProxy}
+          />
+        </Button.Group>
+      </div>
       <Table
         empty={!isLoading && sortedAccountsWithDelegation && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
-        filter={filter}
         footer={footer}
         header={headerRef.current}
       >
@@ -280,7 +286,25 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 }
 
 export default React.memo(styled(Overview)`
+  .accounts-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 2.28rem
+  }
+  .ui--Button-Group {
+
+    .ui--Button {
+      height: 2.85rem;
+      padding: 0.65rem 1.7rem 0.65rem 1.8rem;
+    }
+  }
+
   .filter--tags {
+    display: inline-block;
+    max-width: 365px;
+    width: 100%;
+    
     .ui--Dropdown {
       padding-left: 0;
 
@@ -288,5 +312,22 @@ export default React.memo(styled(Overview)`
         left: 1.55rem;
       }
     }
+
+    .filter-input-wrapper {
+      position: relative;
+      color: #8B8B8B;
+
+      svg {
+        position: absolute;
+        bottom: 1.07rem;
+        left: 1.2rem;
+      }
+    }
+    
+    .ui.input>input {
+      height: 2.85rem;
+      padding: 0.65rem 0.65rem 0.65rem 3.15rem;
+    }
+  
   }
 `);

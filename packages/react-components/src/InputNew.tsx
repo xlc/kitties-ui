@@ -9,6 +9,7 @@ import SUIInput from 'semantic-ui-react/dist/commonjs/elements/Input/Input';
 import { isFunction, isUndefined } from '@polkadot/util';
 
 import Labelled from './LabelledNew';
+import styled from 'styled-components';
 
 type Input$Type = 'number' | 'password' | 'text';
 
@@ -214,7 +215,28 @@ function InputNew ({ autoFocus = false, children, className, defaultValue, help,
   );
 }
 
-export default React.memo(InputNew);
+export default React.memo(styled(InputNew)`
+  ::-webkit-input-placeholder {
+    font-size: 16px;
+    line-height: 22px;
+    color: #8B8B8B;
+  }
+  ::-moz-placeholder {
+    font-size: 16px;
+    line-height: 22px;
+    color: #8B8B8B;
+  }
+  :-ms-input-placeholder {
+    font-size: 16px;
+    line-height: 22px;
+    color: #8B8B8B;
+  }
+  :-moz-placeholder {
+    font-size: 16px;
+    line-height: 22px;
+    color: #8B8B8B;
+  }
+`);
 
 export {
   isCopy,

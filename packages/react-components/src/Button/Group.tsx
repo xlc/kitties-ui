@@ -16,8 +16,6 @@ function ButtonGroup ({ children, className = '', isCentered }: GroupProps): Rea
 }
 
 export default React.memo(styled(ButtonGroup)`
-  text-align: right;
-
   :not(:first-child) {
     margin-top: 0.75rem;
   }
@@ -32,6 +30,6 @@ export default React.memo(styled(ButtonGroup)`
   }
 
   .ui--Button {
-    margin: 0 0.25rem;
+    margin: 0 0.28rem;
   }
 `);

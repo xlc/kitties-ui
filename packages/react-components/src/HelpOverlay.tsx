@@ -53,6 +53,11 @@ export default React.memo(styled(HelpOverlay)`
     position: absolute;
     right: 0rem;
     top: 0.125rem;
+
+    svg {
+      width: 0.7em;
+      height: 0.7em;
+    }
   }
 
   .help-slideout {
