@@ -95,6 +95,7 @@ export default React.memo(styled(Content)`
   padding: 0 2rem 1rem;
   position: relative;
   width: 100%;
+  background: #FAFAFA;
 
   @media(max-width: 768px) {
     padding: 0 0.5rem;

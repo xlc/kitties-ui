@@ -34,12 +34,7 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
             key={index}
             onClick={onClick}
           >
-            {index === 0
-              ? <h1>{label}</h1>
-              : isEmpty
-                ? ''
-                : label
-            }
+            {isEmpty ? '' : label}
           </th>
         )}
       </tr>
@@ -49,9 +44,11 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
 
 export default React.memo(styled(Head)`
   th {
-    color: rgba(78, 78, 78, .66);
-    font-family: sans-serif;
-    font-weight: 100;
+    font-weight: 800;
+    font-size: 10px;
+    line-height: 14px;
+    text-transform: uppercase;
+    color: #4D4D4D;
     padding: 0.75rem 1rem 0.25rem;
     text-align: right;
     vertical-align: baseline;

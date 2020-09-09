@@ -266,6 +266,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
       <Table
         empty={!isLoading && sortedAccountsWithDelegation && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
         footer={footer}
+        isRowsSeparated
         header={headerRef.current}
       >
         {isLoading ? undefined : sortedAccountsWithDelegation?.map(({ account, delegation, isFavorite }, index): React.ReactNode => (
@@ -286,6 +287,10 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 }
 
 export default React.memo(styled(Overview)`
+  & * {
+    font-family: 'Nunito Sans', sans-serif;
+  }
+
   .accounts-top-row {
     display: flex;
     justify-content: space-between;
@@ -328,6 +333,11 @@ export default React.memo(styled(Overview)`
       height: 2.85rem;
       padding: 0.65rem 0.65rem 0.65rem 3.15rem;
     }
-  
+  }
+
+  /* TODO: Move these styles to the IdentityIcon component */
+  .ui--IdentityIcon svg {
+    width: 50px;
+    height: 50px;
   }
 `);

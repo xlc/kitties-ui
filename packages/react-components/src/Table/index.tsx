@@ -18,6 +18,7 @@ interface TableProps {
   footer?: React.ReactNode;
   header?: [React.ReactNode?, string?, number?, (() => void)?][];
   isFixed?: boolean;
+  isRowsSeparated?: boolean;
 }
 
 function extractKids (children: React.ReactNode): [boolean, React.ReactNode] {
@@ -31,12 +32,12 @@ function extractKids (children: React.ReactNode): [boolean, React.ReactNode] {
   return [isEmpty, isEmpty ? null : kids];
 }
 
-function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, isFixed }: TableProps): React.ReactElement<TableProps> {
+function Table ({ children, className = '', empty, emptySpinner, filter, footer, header, isFixed, isRowsSeparated }: TableProps): React.ReactElement<TableProps> {
   const [isEmpty, kids] = extractKids(children);
 
   return (
     <div className={`ui--Table ${className}`}>
-      <table className={isFixed ? 'isFixed' : 'isNotFixed'}>
+      <table className={`${isFixed ? 'isFixed' : 'isNotFixed'} ${isRowsSeparated ? 'isRowsSeparated' : ''}`}>
         <Head
           filter={filter}
           header={header}
@@ -72,17 +73,39 @@ export default React.memo(styled(Table)`
       table-layout: fixed;
     }
 
+    &.isRowsSeparated {
+      border-collapse: separate;
+      border-spacing: 0 0.57rem;
+
+      td {
+        border-top: 1px solid #DFDFDF;
+        border-bottom: 1px solid #DFDFDF;
+
+        &:first-child {
+          border-left: 1px solid #DFDFDF;
+          border-top-left-radius: 0.28rem;
+          border-bottom-left-radius: 0.28rem;
+        }
+
+        &:last-child {
+          border-right: 1px solid #DFDFDF;
+          border-top-right-radius: 0.28rem;
+          border-bottom-right-radius: 0.28rem;
+        }
+      }
+    }
+
     tr {
       max-width: 100%;
       width: 100%;
 
       td, &:not(.filter) th {
         &:first-child {
-          padding-left: 1.5rem;
+          padding-left: 1.15rem;
         }
 
         &:last-child {
-          padding-right: 0.75rem;
+          padding-right: 1.15rem;
         }
 
         &.all {

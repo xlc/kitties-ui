@@ -14,7 +14,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import styled from 'styled-components';
 import { ApiPromise } from '@polkadot/api';
 import { getLedger } from '@polkadot/react-api';
-import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags } from '@polkadot/react-components';
+import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags, SendButton, EllipsisButton } from '@polkadot/react-components';
 import { useAccountInfo, useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
@@ -409,8 +409,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
       </td>
       <td className='button'>
         {api.api.tx.balances?.transfer && (
-          <Button
-            icon='paper-plane'
+          <SendButton
             label={t<string>('send')}
             onClick={toggleTransfer}
           />
@@ -420,10 +419,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           isOpen={isSettingsOpen}
           onClose={toggleSettings}
           trigger={
-            <Button
-              icon='ellipsis-v'
-              onClick={toggleSettings}
-            />
+            <EllipsisButton onClick={toggleSettings}/>
           }
         >
           <Menu
@@ -592,5 +588,8 @@ export default React.memo(styled(Account)`
   .tags {
     width: 100%;
     min-height: 1.5rem;
+  }
+  .ui--Popup-btn {
+
   }
 `);

@@ -31,16 +31,16 @@ function Body ({ children, className = '', empty, emptySpinner }: Props): React.
 
 export default React.memo(styled(Body)`
   td {
-    padding: 0.75rem 1rem;
+    padding: 0.7rem 1.15rem 0.85rem;
     text-align: left;
     vertical-align: middle;
 
     &:first-child {
-      border-left: 1px solid #e4e6e8;
+      border-left: 1px solid #DFDFDF;
     }
 
     &:last-child {
-      border-right: 1px solid #e4e6e8;
+      border-right: 1px solid #DFDFDF;
     }
 
     label {
@@ -144,39 +144,33 @@ export default React.memo(styled(Body)`
   }
 
   tr {
-    &:nth-child(even) {
-      background: #faf8f6;
-    }
-
-    &:nth-child(odd) {
-      background: white;
-    }
+    background: white;
 
     &:first-child td {
-      border-top: 1px solid #e4e6e8;
+      border-top: 1px solid #DFDFDF;
     }
 
     &:last-child td {
-      border-bottom: 1px solid #e4e6e8;
+      border-bottom: 1px solid #DFDFDF;
     }
 
     &:first-child {
       td:first-child {
-        border-top-left-radius: 0.25rem;
+        border-top-left-radius: 0.28rem;
       }
 
       td:last-child {
-        border-top-right-radius: 0.25rem;
+        border-top-right-radius: 0.28rem;
       }
     }
 
     &:last-child {
       td:first-child {
-        border-bottom-left-radius: 0.25rem;
+        border-bottom-left-radius: 0.28rem;
       }
 
       td:last-child {
-        border-bottom-right-radius: 0.25rem;
+        border-bottom-right-radius: 0.28rem;
       }
     }
 
