@@ -126,7 +126,6 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
         <ReferendumVotes
           change={changeAye}
           count={voteCountAye}
-          index={index}
           isAye
           isWinning={isPassing}
           total={votedAye}
@@ -135,7 +134,6 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
         <ReferendumVotes
           change={changeNay}
           count={voteCountNay}
-          index={index}
           isAye={false}
           isWinning={!isPassing}
           total={votedNay}
@@ -159,11 +157,11 @@ function Referendum ({ className = '', value: { allAye, allNay, image, imageHash
           icon='asterisk'
         />
       </td>
-      <td className='mini media--1000'>
+      <td className='links media--1000'>
         <LinkExternal
           data={index}
+          isLogo
           type='referendum'
-          withShort
         />
       </td>
     </tr>

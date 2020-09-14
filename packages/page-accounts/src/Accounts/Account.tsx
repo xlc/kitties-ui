@@ -14,7 +14,7 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import styled from 'styled-components';
 import { ApiPromise } from '@polkadot/api';
 import { getLedger } from '@polkadot/react-api';
-import { AddressInfo, AddressMini, AddressSmall, Badge, Button, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags, SendButton, EllipsisButton } from '@polkadot/react-components';
+import { AddressInfo, AddressMini, AddressSmall, Badge, ChainLock, CryptoType, Forget, Icon, IdentityIcon, LinkExternal, Menu, Popup, StatusContext, Tags, SendButton, EllipsisButton } from '@polkadot/react-components';
 import { useAccountInfo, useApi, useCall, useToggle } from '@polkadot/react-hooks';
 import { Option } from '@polkadot/types';
 import keyring from '@polkadot/ui-keyring';
@@ -108,6 +108,7 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
   useEffect((): void => {
     if (balancesAll) {
       setBalance(address, balancesAll.freeBalance.add(balancesAll.reservedBalance));
+
       api.api.tx.vesting?.vest && setVestingTx(() =>
         balancesAll.vestingLocked.isZero()
           ? null
@@ -572,12 +573,12 @@ function Account ({ account: { address, meta }, className = '', delegation, filt
           </Menu>
         </Popup>
       </td>
-      <td className='mini media--1400'>
+      <td className='links media--1400'>
         <LinkExternal
           className='ui--AddressCard-exporer-link'
           data={address}
+          isLogo
           type='address'
-          withShort
         />
       </td>
     </tr>

@@ -77,7 +77,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
   const delegations = useCall<Voting[]>(api.query.democracy?.votingOf?.multi, [sortedAddresses]);
   const proxies = useCall<[ProxyDefinition[], BN][]>(api.query.proxy?.proxies.multi, [sortedAddresses], {
     transform: (result: [([AccountId, ProxyType] | ProxyDefinition)[], BN][]): [ProxyDefinition[], BN][] =>
-      api.tx.proxy.addProxy.meta.args.length === 4
+      api.tx.proxy.addProxy.meta.args.length === 3
         ? result as [ProxyDefinition[], BN][]
         : (result as [[AccountId, ProxyType][], BN][]).map(([arr, bn]): [ProxyDefinition[], BN] =>
           [arr.map(([delegate, proxyType]): ProxyDefinition => api.createType('ProxyDefinition', { delegate, proxyType })), bn]
@@ -93,7 +93,7 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
     [t('transactions'), 'ui--media-1500'],
     [t('balances')],
     [],
-    [undefined, 'mini ui--media-1400']
+    [undefined, 'ui--media--1400']
   ]);
 
   useEffect((): void => {
@@ -175,8 +175,6 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
 
   return (
     <div className={className}>
-      <BannerExtension />
-      <BannerClaims />
       {isCreateOpen && (
         <CreateModal
           onClose={toggleCreate}
@@ -263,6 +261,8 @@ function Overview ({ className = '', onStatusChange }: Props): React.ReactElemen
           />
         </Button.Group>
       </div>
+      <BannerExtension />
+      <BannerClaims />
       <Table
         empty={!isLoading && sortedAccountsWithDelegation && t<string>("You don't have any accounts. Some features are currently hidden and will only become available once you have accounts.")}
         footer={footer}

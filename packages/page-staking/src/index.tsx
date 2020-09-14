@@ -155,6 +155,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
             isIntentions
             next={next}
             stakingOverview={stakingOverview}
+            targets={targets}
             toggleFavorite={toggleFavorite}
           />
         </Route>
@@ -171,6 +172,7 @@ function StakingApp ({ basePath, className = '' }: Props): React.ReactElement<Pr
         hasQueries={hasQueries}
         next={next}
         stakingOverview={stakingOverview}
+        targets={targets}
         toggleFavorite={toggleFavorite}
       />
     </main>
@@ -201,6 +203,12 @@ export default React.memo(styled(StakingApp)`
       display: inline-block;
       margin-right: 1rem;
       margin-top: 0.5rem;
+    }
+  }
+
+  .ui--Expander.stakeOver {
+    .ui--Expander-summary {
+      color: darkred;
     }
   }
 `);

@@ -85,15 +85,23 @@ export default React.memo(styled(Body)`
     }
 
     &.expand {
-      text-align: left;
+      &:not(.left) {
+        text-align: right;
+      }
 
       .ui--Expander+.ui--Expander {
-        margin-top: 0.5rem;
+        margin-top: 0.375rem;
       }
     }
 
     &.hash {
       font-family: monospace;
+    }
+
+    &.links {
+      padding: 0.5rem 0.75rem;
+      text-align: center;
+      width: 0;
     }
 
     &.number {
@@ -138,7 +146,7 @@ export default React.memo(styled(Body)`
       color: darkorange;
     }
 
-    .ui--Button-Group .ui--Button {
+    .ui--Button-Group .ui--Button:not(.isToplevel) {
       margin: 0;
     }
   }
@@ -165,12 +173,16 @@ export default React.memo(styled(Body)`
     }
 
     &:last-child {
-      td:first-child {
-        border-bottom-left-radius: 0.28rem;
-      }
+      td {
+        border-bottom: 1px solid #eeecea;
 
-      td:last-child {
-        border-bottom-right-radius: 0.28rem;
+        &:first-child {
+          border-bottom-left-radius: 0.28rem;
+        }
+
+        :last-child {
+          border-bottom-right-radius: 0.28rem;
+        }
       }
     }
 

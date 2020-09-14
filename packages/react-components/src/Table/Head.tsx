@@ -43,6 +43,9 @@ function Head ({ className = '', filter, header, isEmpty }: Props): React.ReactE
 }
 
 export default React.memo(styled(Head)`
+  position: relative;
+  z-index: 1;
+
   th {
     font-weight: 800;
     font-size: 10px;
@@ -58,6 +61,14 @@ export default React.memo(styled(Head)`
       font-size: 1.75rem;
     }
 
+    &:first-child {
+      border-left: 1px solid #eeecea;
+    }
+
+    &:last-child {
+      border-right: 1px solid #eeecea;
+    }
+
     &.address {
       padding-left: 3rem;
       text-align: left;
@@ -65,6 +76,10 @@ export default React.memo(styled(Head)`
 
     &.badge {
       padding: 0;
+    }
+
+    &.expand {
+      text-align: right;
     }
 
     &.isClickable {
@@ -82,11 +97,33 @@ export default React.memo(styled(Head)`
   }
 
   tr {
-    background: transparent;
+    background: white;
     text-transform: lowercase;
 
-    &.filter th {
-      padding: 0;
+    &:first-child {
+      th {
+        border-top: 1px solid #eeecea;
+      }
+    }
+
+    &:not(.filter) {
+      th {
+        color: rgba(78, 78, 78, 0.66);
+      }
+    }
+
+    &.filter {
+      .ui.input {
+        background: transparent;
+
+        &:first-child {
+          margin-top: -1px;
+        }
+      }
+
+      th {
+        padding: 0;
+      }
     }
   }
 `);
