@@ -2451,6 +2451,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@polkadot/app-kitties@workspace:packages/page-kitties":
+  version: 0.0.0-use.local
+  resolution: "@polkadot/app-kitties@workspace:packages/page-kitties"
+  dependencies:
+    "@babel/runtime": ^7.14.6
+    "@polkadot/react-components": ^0.94.2-89
+  languageName: unknown
+  linkType: soft
+
 "@polkadot/app-membership@workspace:packages/page-membership":
   version: 0.0.0-use.local
   resolution: "@polkadot/app-membership@workspace:packages/page-membership"

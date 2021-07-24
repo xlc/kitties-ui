@@ -17,6 +17,7 @@ import explorer from './explorer';
 import extrinsics from './extrinsics';
 import gilt from './gilt';
 import js from './js';
+import kitties from './kitties';
 import membership from './membership';
 import parachains from './parachains';
 import poll from './poll';
@@ -34,6 +35,7 @@ import treasury from './treasury';
 
 export default function create (t: TFunction): Routes {
   return [
+    kitties(t),
     accounts(t),
     addresses(t),
     explorer(t),
