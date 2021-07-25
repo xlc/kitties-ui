@@ -3,9 +3,11 @@
 
 import type { AppProps as Props } from '@polkadot/react-components/types';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import registry from '@polkadot/react-api/typeRegistry';
+
+import AccountSelector from './AccountSelector';
 
 registry.register({
   ClassId: 'u32',
@@ -22,10 +24,12 @@ registry.register({
   TokenInfoOf: 'TokenInfo'
 });
 
-function KittiesApp (): React.ReactElement<Props> {
+function KittiesApp ({ className }: Props): React.ReactElement<Props> {
+  const [accountId, setAccountId] = useState<string | null>(null);
+
   return (
-    <main>
-      Kitties App
+    <main className={className}>
+      <AccountSelector onChange={setAccountId} />
     </main>
   );
 }
