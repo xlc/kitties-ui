@@ -35,6 +35,7 @@ const KittyViewer: React.FC<Props> = ({ accountId }: Props) => {
         accountId={accountId}
         key={i}
         kittyId={new BN(i)}
+        showBuy={true}
       />
     );
   }

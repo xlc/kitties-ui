@@ -13,6 +13,7 @@ import { formatBalance, u8aToHex } from '@polkadot/util';
 
 import { useKitty, useKittyPrice } from './hooks';
 import KittyAvatar from './KittyAvatar';
+import { TokenInfo } from './types';
 
 const Wrapper = styled.div`
    border: 2px solid #eee;
@@ -36,13 +37,15 @@ interface Props {
   kittyId?: BN | string;
   accountId: string | null;
   showUnlist?: boolean;
+  showBuy?: boolean;
 }
 
 type PriceProps = Props & {
   price?: Option<Balance>;
+  kitty?: Option<TokenInfo>;
 };
 
-const Price: React.FC<PriceProps> = ({ accountId, kittyId, price, showUnlist }: PriceProps) => {
+const Price: React.FC<PriceProps> = ({ accountId, kitty, kittyId, price, showBuy, showUnlist }: PriceProps) => {
   const { api } = useApi();
 
   if (price && price.isSome) {
@@ -60,6 +63,14 @@ const Price: React.FC<PriceProps> = ({ accountId, kittyId, price, showUnlist }: 
             tx={api.tx.kitties.setPrice}
           />
         }
+        {showBuy &&
+            <TxButton
+              accountId={accountId}
+              label='Buy'
+              params={[kitty?.unwrap().owner, kittyId, value]}
+              tx={api.tx.kitties.buy}
+            />
+        }
       </>
     );
   }
@@ -67,7 +78,7 @@ const Price: React.FC<PriceProps> = ({ accountId, kittyId, price, showUnlist }: 
   return <label>Not for sale</label>;
 };
 
-const KittyCard: React.FC<Props> = ({ accountId, kittyId, showUnlist }: Props) => {
+const KittyCard: React.FC<Props> = ({ kittyId, ...others }: Props) => {
   const maybeKitty = useKitty(kittyId);
   const price = useKittyPrice(kittyId);
 
@@ -89,7 +100,7 @@ const KittyCard: React.FC<Props> = ({ accountId, kittyId, showUnlist }: Props) =
         </label>
         <label>DNA: {u8aToHex(dna)}</label>
         <label>Gender: {gender}</label>
-        <Price {...{ accountId, kittyId, price, showUnlist } }/>
+        <Price {...{ kitty: maybeKitty, kittyId, price, ...others } }/>
       </Wrapper>
     );
   }
