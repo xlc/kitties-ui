@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import registry from '@polkadot/react-api/typeRegistry';
 
 import AccountSelector from './AccountSelector';
+import KittyAvatar from './KittyAvatar';
 
 registry.register({
   ClassId: 'u32',
@@ -30,6 +31,7 @@ function KittiesApp ({ className }: Props): React.ReactElement<Props> {
   return (
     <main className={className}>
       <AccountSelector onChange={setAccountId} />
+      <KittyAvatar dna={[]} />
     </main>
   );
 }

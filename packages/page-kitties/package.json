@@ -6,6 +6,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/runtime": "^7.14.6",
-    "@polkadot/react-components": "^0.94.2-89"
+    "@polkadot/react-components": "^0.94.2-89",
+    "kitty-avatar": "xlc/kitty-avatar"
   }
 }

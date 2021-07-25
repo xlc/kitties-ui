@@ -2457,6 +2457,7 @@ __metadata:
   dependencies:
     "@babel/runtime": ^7.14.6
     "@polkadot/react-components": ^0.94.2-89
+    kitty-avatar: xlc/kitty-avatar
   languageName: unknown
   linkType: soft
 
@@ -12943,6 +12944,13 @@ __metadata:
   version: 6.0.3
   resolution: "kind-of@npm:6.0.3"
   checksum: 3ab01e7b1d440b22fe4c31f23d8d38b4d9b91d9f291df683476576493d5dfd2e03848a8b05813dd0c3f0e835bc63f433007ddeceb71f05cb25c45ae1b19c6d3b
+  languageName: node
+  linkType: hard
+
+kitty-avatar@xlc/kitty-avatar:
+  version: 1.0.0
+  resolution: "kitty-avatar@https://github.com/xlc/kitty-avatar.git#commit=4097d10df14199ec397479320416892fc606f6a9"
+  checksum: 2ce6912b590c5a23f830331b4768fabd4f590d53e7c2008d62629705f6d61bdd4156010cc76746564e19500172b73372d9e45b3f0e4f46925e181587377900a4
   languageName: node
   linkType: hard
 
