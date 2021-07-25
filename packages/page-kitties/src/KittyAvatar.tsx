@@ -92,11 +92,8 @@ const IMAGES = {
 const OuterWrapper = styled.div`
   height: 170px;
   width: 170px;
-  margin: 10px;
+  margin: 5px;
   flex-shrink: 0;
-  border: 2px solid #eee;
-  padding: 10px;
-  border-radius: 8px;
 `;
 
 const Wrapper = styled.div`
