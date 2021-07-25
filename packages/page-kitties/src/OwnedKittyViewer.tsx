@@ -54,8 +54,10 @@ const OwnedKittyViewer: React.FC<Props> = ({ accountId }: Props) => {
         {
           kittyIds.map((id) =>
             <KittyCard
+              accountId={accountId}
               key={id}
               kittyId={id}
+              showUnlist={true}
             />)
         }
       </KittiesWrapper>
