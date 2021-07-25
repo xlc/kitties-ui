@@ -6,9 +6,10 @@ import type { AppProps as Props } from '@polkadot/react-components/types';
 import React, { useState } from 'react';
 
 import registry from '@polkadot/react-api/typeRegistry';
+import { useApi } from '@polkadot/react-hooks';
 
 import AccountSelector from './AccountSelector';
-import KittyAvatar from './KittyAvatar';
+import KittyViewer from './KittyViewer';
 
 registry.register({
   ClassId: 'u32',
@@ -28,10 +29,17 @@ registry.register({
 function KittiesApp ({ className }: Props): React.ReactElement<Props> {
   const [accountId, setAccountId] = useState<string | null>(null);
 
+  const { api } = useApi();
+  const kitties = [
+    api.registry.createType('Kitty' as any, new Array(32).fill(1)),
+    api.registry.createType('Kitty' as any, new Array(32).fill(2)),
+    api.registry.createType('Kitty' as any, new Array(32).fill(3)),
+  ];
+
   return (
     <main className={className}>
       <AccountSelector onChange={setAccountId} />
-      <KittyAvatar dna={[]} />
+      <KittyViewer kitties={kitties} />
     </main>
   );
 }
