@@ -7,17 +7,35 @@ import styled from 'styled-components';
 
 import { useApi, useCall } from '@polkadot/react-hooks';
 
+import LoadKittyAvatar from './LoadKittyAvatar';
+
 const Wrapper = styled.section``;
 
 const KittyViewer: React.FC = () => {
   const { api } = useApi();
 
-  const count = useCall<BN>(api.query.nft.nextTokenId, [0]);
+  const kittiesCount = useCall<BN>(api.query.nft.nextTokenId, [0]);
+
+  const count = kittiesCount ? kittiesCount.toNumber() : 0;
+
+  const kitties = [];
+
+  for (let i = 0; i < count; ++i) {
+    kitties.push(
+      <LoadKittyAvatar
+        key={i}
+        kittyId={new BN(i)}
+      />
+    );
+  }
 
   return (
     <Wrapper>
       <h1>Substrate Kitties</h1>
-      Kitties Count: {count && count.toString()}
+      <h2>
+           Total kitties count: {count}
+      </h2>
+      { kitties }
     </Wrapper>
   );
 };
