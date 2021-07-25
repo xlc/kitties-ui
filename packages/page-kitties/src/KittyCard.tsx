@@ -7,8 +7,8 @@ import styled from 'styled-components';
 
 import { AddressMini } from '@polkadot/react-components';
 
-import KittyAvatar from './KittyAvatar';
 import { useKitty } from './hooks';
+import KittyAvatar from './KittyAvatar';
 
 const Wrapper = styled.div`
    border: 2px solid #eee;
@@ -42,10 +42,13 @@ const KittyCard: React.FC<Props> = ({ kittyId }: Props) => {
       <Wrapper>
         <StyledKittyAvatar dna={kitty.data.toU8a()} />
         <Line />
-        <label>Owner</label>
-        <AddressMini
-          value={kitty.owner}
-        />
+        <label>Kitty ID: {kittyId?.toString()}</label>
+        <label>
+          Owner:&nbsp;
+          <AddressMini
+            value={kitty.owner}
+          />
+        </label>
       </Wrapper>
     );
   }
