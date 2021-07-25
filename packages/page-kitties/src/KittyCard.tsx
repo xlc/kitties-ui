@@ -6,6 +6,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { AddressMini } from '@polkadot/react-components';
+import { u8aToHex } from '@polkadot/util';
 
 import { useKitty } from './hooks';
 import KittyAvatar from './KittyAvatar';
@@ -15,7 +16,7 @@ const Wrapper = styled.div`
    padding: 10px;
    border-radius: 8px;
    margin: 10px;
-   width: 300px;
+   width: 333px;
  `;
 
 const StyledKittyAvatar = styled(KittyAvatar)`
@@ -37,10 +38,11 @@ const KittyCard: React.FC<Props> = ({ kittyId }: Props) => {
 
   if (maybeKitty?.isSome) {
     const kitty = maybeKitty.unwrap();
+    const dna = kitty.data.toU8a();
 
     return (
       <Wrapper>
-        <StyledKittyAvatar dna={kitty.data.toU8a()} />
+        <StyledKittyAvatar dna={dna} />
         <Line />
         <label>Kitty ID: {kittyId?.toString()}</label>
         <label>
@@ -49,6 +51,7 @@ const KittyCard: React.FC<Props> = ({ kittyId }: Props) => {
             value={kitty.owner}
           />
         </label>
+        <label>DNA: {u8aToHex(dna)}</label>
       </Wrapper>
     );
   }
