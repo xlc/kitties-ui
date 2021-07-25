@@ -6,9 +6,11 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { AddressMini } from '@polkadot/react-components';
-import { u8aToHex } from '@polkadot/util';
+import { Option } from '@polkadot/types';
+import { Balance } from '@polkadot/types/interfaces';
+import { formatBalance, u8aToHex } from '@polkadot/util';
 
-import { useKitty } from './hooks';
+import { useKitty, useKittyPrice } from './hooks';
 import KittyAvatar from './KittyAvatar';
 
 const Wrapper = styled.div`
@@ -33,8 +35,23 @@ interface Props {
   kittyId?: BN | string;
 }
 
+type PriceProps = {
+  price?: Option<Balance>;
+};
+
+const Price: React.FC<PriceProps> = ({ price }: PriceProps) => {
+  if (price && price.isSome) {
+    const value = price.unwrap();
+
+    return <label>Price: {formatBalance(value)}</label>;
+  }
+
+  return <label>Not for sale</label>;
+};
+
 const KittyCard: React.FC<Props> = ({ kittyId }: Props) => {
   const maybeKitty = useKitty(kittyId);
+  const price = useKittyPrice(kittyId);
 
   if (maybeKitty?.isSome) {
     const kitty = maybeKitty.unwrap();
@@ -54,6 +71,7 @@ const KittyCard: React.FC<Props> = ({ kittyId }: Props) => {
         </label>
         <label>DNA: {u8aToHex(dna)}</label>
         <label>Gender: {gender}</label>
+        <Price price={price}/>
       </Wrapper>
     );
   }
