@@ -1,29 +1,25 @@
 // Copyright 2017-2020 @polkadot/app-js authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
+import BN from 'bn.js';
 import React from 'react';
 import styled from 'styled-components';
 
-import KittyAvatar from './KittyAvatar';
-import { Kitty } from './types';
+import { useApi, useCall } from '@polkadot/react-hooks';
 
 const Wrapper = styled.section``;
 
-interface Props {
-  kitties: Array<Kitty>;
-}
+const KittyViewer: React.FC = () => {
+  const { api } = useApi();
 
-const KittyViewer: React.FC<Props> = ({ kitties }: Props) => (
-  <Wrapper>
-    <h1>Substrate Kitties</h1>
-    { kitties.length === 0 && 'No kitties'}
-    { kitties.map((k) => (
-      <KittyAvatar
-        dna={k.toU8a()}
-        key={k.toHex()}
-      />
-    )) }
-  </Wrapper>
-);
+  const count = useCall<BN>(api.query.nft.nextTokenId, [0]);
 
-export default KittyViewer;
+  return (
+    <Wrapper>
+      <h1>Substrate Kitties</h1>
+      Kitties Count: {count && count.toString()}
+    </Wrapper>
+  );
+};
+
+export default React.memo(KittyViewer);
