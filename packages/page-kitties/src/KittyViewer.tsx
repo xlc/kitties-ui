@@ -10,6 +10,10 @@ import { useApi, useCall } from '@polkadot/react-hooks';
 import LoadKittyAvatar from './LoadKittyAvatar';
 
 const Wrapper = styled.section``;
+const KittiesWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
 
 const KittyViewer: React.FC = () => {
   const { api } = useApi();
@@ -35,7 +39,9 @@ const KittyViewer: React.FC = () => {
       <h2>
            Total kitties count: {count}
       </h2>
-      { kitties }
+      <KittiesWrapper>
+        { kitties }
+      </KittiesWrapper>
     </Wrapper>
   );
 };
