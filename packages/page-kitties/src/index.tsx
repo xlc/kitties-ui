@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import registry from '@polkadot/react-api/typeRegistry';
 
 import AccountSelector from './AccountSelector';
+import KittyActions from './KittyActions';
 import KittyViewer from './KittyViewer';
 
 registry.register({
@@ -31,6 +32,7 @@ function KittiesApp ({ className }: Props): React.ReactElement<Props> {
   return (
     <main className={className}>
       <AccountSelector onChange={setAccountId} />
+      <KittyActions accountId={accountId} />
       <KittyViewer />
     </main>
   );
