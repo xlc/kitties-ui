@@ -13,7 +13,7 @@ export type Props = {
   kitty?: Option<TokenInfo>
 };
 
-export const useKitty = (kittyId?: BN): Option<TokenInfo> | undefined => {
+export const useKitty = (kittyId?: BN | string): Option<TokenInfo> | undefined => {
   const { api } = useApi();
 
   return useCall<Option<TokenInfo>>(api.query.nft.tokens, [0, kittyId]);

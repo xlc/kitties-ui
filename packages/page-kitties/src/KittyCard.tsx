@@ -30,7 +30,7 @@ const Line = styled.div`
  `;
 
 interface Props {
-  kittyId?: BN;
+  kittyId?: BN | string;
 }
 
 const KittyCard: React.FC<Props> = ({ kittyId }: Props) => {

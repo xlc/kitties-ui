@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { useApi, useCall } from '@polkadot/react-hooks';
 
 import KittyCard from './KittyCard';
+import OwnedKittyViewer from './OwnedKittyViewer';
 
 const Wrapper = styled.section``;
 const KittiesWrapper = styled.div`
@@ -15,7 +16,11 @@ const KittiesWrapper = styled.div`
   flex-wrap: wrap;
 `;
 
-const KittyViewer: React.FC = () => {
+interface Props {
+  accountId: string | null,
+}
+
+const KittyViewer: React.FC<Props> = ({ accountId }: Props) => {
   const { api } = useApi();
 
   const kittiesCount = useCall<BN>(api.query.nft.nextTokenId, [0]);
@@ -36,12 +41,18 @@ const KittyViewer: React.FC = () => {
   return (
     <Wrapper>
       <h1>Substrate Kitties</h1>
-      <h2>
-           Total kitties count: {count}
-      </h2>
-      <KittiesWrapper>
-        { kitties }
-      </KittiesWrapper>
+      <OwnedKittyViewer
+        accountId={accountId}
+        key={accountId || ''}
+      />
+      <div>
+        <h2>
+            Total kitties count: {count}
+        </h2>
+        <KittiesWrapper>
+          { kitties }
+        </KittiesWrapper>
+      </div>
     </Wrapper>
   );
 };
