@@ -19,6 +19,7 @@ const KittyActions: React.FC<Props> = ({ accountId }: Props) => {
   return (
     <section>
       <h1>Kitty Actions</h1>
+      <h2>Create Kitty</h2>
       <div className='ui--row'>
         <div className='large'>
           <Button.Group>
@@ -31,6 +32,7 @@ const KittyActions: React.FC<Props> = ({ accountId }: Props) => {
           </Button.Group>
         </div>
       </div>
+      <h2>Breed Kitty</h2>
       <div className='ui--row'>
         <div className='large'>
           <InputNumber
